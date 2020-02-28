@@ -57,6 +57,7 @@
   import Tag from '../components/tag/index'
   import LeftMenu from '../components/left_menu/index'
   import Drawer from '../components/drawer/index'
+  import * as Cookies from "js-cookie"
 
   export default {
     name: 'index',
@@ -94,8 +95,8 @@
       // 获取滚动高度
       getScrollTop(obj) {
         obj.scrollTop >= 100
-          ? this.isShowBackTop = true
-          : this.isShowBackTop = false;
+            ? this.isShowBackTop = true
+            : this.isShowBackTop = false;
         this.$store.dispatch('setScrollTop', obj.scrollTop)
       },
       // 事件监听
@@ -115,11 +116,10 @@
       // 退出登录
       logout() {
         this.$msgBox('确定注销并退出系统吗？', 'warning').then(() => {
-          this.$successMsg('已退出登录！');
           // 清除缓存
-          this.$store.dispatch('clear');
+          Cookies.remove('drivingSchoolAdminToken');
+          this.$removeSessionStorage('drivingSchoolAdmin');
           this.$router.push({name: 'login'});
-          localStorage.removeItem('divingSchoolAdminMaster');
           location.reload()
         })
       },

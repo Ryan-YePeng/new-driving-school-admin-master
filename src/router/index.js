@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css'
 import {isEmpty} from '../utils/common'
 import {get} from '../api/menu'
 import {getUserApi} from '../api/person'
+import {menu_admin, menu_school} from './menu'
 
 NProgress.configure({showSpinner: false});
 
@@ -27,8 +28,8 @@ function generateRouter(menu) {
   let view = '';
   const authority = store.getters.user.authorities[0].authority;
   authority === 'ROLE_ADMIN'
-    ? view = 'views'
-    : view = 'views_school';
+      ? view = 'views'
+      : view = 'views_school';
   menu.forEach(fistItem => {
     //一级菜单
     let firstObj = {};
@@ -72,13 +73,14 @@ function generateRouter(menu) {
 
 export function getRouter() {
   return new Promise(resolve => {
-    get().then(result => {
-      let menu = result.data.resultParm.menu;
-      let role = store.getters.user.authorities[0].authority;
-      if (role === 'ROLE_SCHOOL') {
-        let schoolId = result.data.resultParm.schoolId;
-        store.dispatch('setSchoolId', schoolId);
-      }
+    getUserApi().then(result => {
+      let user = result.data.resultParm.user;
+      store.dispatch('setUser', user);
+      let role = user.authorities[0].authority;
+      let menu;
+      role === 'ROLE_SCHOOL'
+          ? menu = menu_school
+          : menu = menu_admin;
       store.dispatch('setMenu', menu);
       generateRouter(menu);
       router.addRoutes([layout]);
@@ -92,9 +94,6 @@ export function getRouter() {
       }]);
       resolve()
     });
-    setTimeout(() => {
-
-    }, 0);
   });
 }
 

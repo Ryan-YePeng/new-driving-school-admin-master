@@ -62,6 +62,9 @@
         }
       }
     },
+    mounted() {
+      this.loginUser.username = this.$getLocalStorage('username') || '';
+    },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -85,6 +88,7 @@
               })
               .then(() => {
                 this.isLoading = false;
+                this.$setLocalStorage('username', this.loginUser.username);
                 this.$router.push({name: 'home'});
                 this.$store.dispatch('setActive', '首页');
               })

@@ -6,7 +6,7 @@ import {isEmpty} from "../utils/common";
 import router from '../router/index'
 import store from '../store/index'
 
-let errorCode = null;
+let errorStatus = null;
 
 const service = axios.create({
   timeout: 20000,
@@ -31,53 +31,54 @@ service.interceptors.request.use( //请求拦截
 
 service.interceptors.response.use( //响应拦截
     response => { //成功
-      const {message} = response.data;
-      if (message) successMsg(message);
+      const {message, status} = response.data;
+      if (!isEmpty(message) && status === 200) {
+        successMsg(message)
+      }
+      if (!isEmpty(message) && status !== 200) {
+        errorMsg(message)
+      }
       return response
     },
     error => { //错误
       /* 请求超时！*/
       if (error.toString().includes('timeout')) {
         errorMessage('请求超时！');
-        return
+        return Promise.reject(error)
       }
       /* 网络错误！ */
       let statusText = '';
       try {
-        statusText = error.response.statusText = 'Internal Server Error';
+        statusText = error.response.statusText
       } finally {
         if (statusText === 'Internal Server Error') {
           errorMessage('网络错误，请检查您的网络状况！')
         }
       }
-      const {code, message} = error.response.data;
+      const {status, message} = error.response.data;
       /* 401 */
-      if (code === 401) {
-        if (message.length < 15) {
-          errorMessage(message)
-        } else {
-          if (errorCode === code) return;
-          errorCode = code;
-          MessageBox.confirm(
-              '登录状态已过期，您可以继续留在该页面，或者重新登录',
-              '系统提示',
-              {
-                confirmButtonText: '重新登录',
-                cancelButtonText: '取消',
-                type: 'warning'
-              }
-          ).then(() => {
-            router.push({name: 'login'})
-          }).catch(() => errorCode = null)
-        }
+      if (status === 401) {
+        if (errorStatus === status) return;
+        errorStatus = status;
+        MessageBox.confirm(
+            '登录状态已过期，您可以继续留在该页面，或者重新登录',
+            '系统提示',
+            {
+              confirmButtonText: '重新登录',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+        ).then(() => {
+          router.push({name: 'login'})
+        }).catch(() => errorStatus = null)
       }
       /* 403 */
-      else if (code === 403) {
+      else if (status === 403) {
         router.push({name: 'error403'})
       }
-      /* elseCode */
+      /* elseStatus */
       else {
-        if (isEmpty(message)) errorMsg(message);
+        if (!isEmpty(message)) errorMsg(message);
       }
       return Promise.reject(error)
     }

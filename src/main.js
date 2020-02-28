@@ -9,6 +9,8 @@ import './utils/directive'
 import './styles/initialization.css'
 // jquery
 import $ from 'jquery'
+// storage
+import './utils/storage'
 // 图标库
 import './styles/iconfont.css'
 // 选择树样式

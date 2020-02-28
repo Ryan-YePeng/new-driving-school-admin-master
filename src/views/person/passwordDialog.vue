@@ -1,11 +1,11 @@
 <template>
   <el-dialog
-    title="修改密码"
-    width="450px"
-    :visible.sync="passwordDialogVisible"
-    append-to-body
-    @close="cancel"
-    :close-on-click-modal="false">
+          title="修改密码"
+          width="450px"
+          :visible.sync="passwordDialogVisible"
+          append-to-body
+          @close="cancel"
+          :close-on-click-modal="false">
     <el-form :model="passwordForm" :rules="rules" ref="passwordForm" label-width="120px">
       <el-form-item label="新密码:" prop="password">
         <el-input type="password" v-model="passwordForm.password" autocomplete="off"></el-input>
@@ -23,6 +23,7 @@
 
 <script>
   import {updatePasswordApi} from '../../api/person'
+  import * as Cookies from 'js-cookie'
 
   export default {
     data() {
@@ -57,8 +58,13 @@
             let data = {
               password: this.passwordForm.password
             };
-            updatePasswordApi(data).then(() => {
-              this.isLoading = false
+            updatePasswordApi(data).then(result => {
+              this.isLoading = false;
+              this.$successMsg('请重新登录！');
+              Cookies.remove('drivingSchoolAdminToken');
+              this.$removeSessionStorage('drivingSchoolAdmin');
+              this.$router.push({name: 'login'});
+              location.reload()
             }).catch(() => {
               this.isLoading = false
             })
