@@ -23,7 +23,7 @@
       // 是否显示关闭按钮
       closable: {
         type: Boolean,
-        default: true
+        default: false
       },
 
       // 是否显示遮罩

@@ -70,11 +70,6 @@
         coachConsultList: []
       }
     },
-    computed: {
-      schoolId() {
-        return this.$store.getters.schoolId
-      }
-    },
     mounted() {
       this.getCoachConsultList()
     },
@@ -83,7 +78,7 @@
       getCoachConsultList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
+        let param = `current=${pagination.current}&size=${pagination.size}`;
         getCoachConsultListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.coachConsultList;

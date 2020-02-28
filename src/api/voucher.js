@@ -1,18 +1,39 @@
-// POST
-// /school/coupon/addCoupon
-// 添加优惠卷方法接口
-// DELETE
-// /school/coupon/deleteCoupon
-// 通过优惠卷id删除优惠卷接口
-// DELETE
-// /school/coupon/getCouponList
-// 通过课程id获得优惠卷接口
-// DELETE
-// /school/coupon/updateCoupon
-// 通过优惠卷id更新优惠卷接口
-// DELETE
-// /school/coupon/uploadCouponPicture
-// 上传文件接口
+import {axiosd, axiosG, axiosK} from '../utils/request'
 
-import {axiosK} from '../utils/request'
+// 添加优惠卷方法
+const addCouponUrl = 'school/coupon/addCoupon';
 
+export function addCouponApi(data) {
+  return axiosK(addCouponUrl, data)
+}
+
+// 通过schoolId获得优惠卷
+const getCouponBySchoolIdUrl = 'school/coupon/getCouponBySchoolId?schoolId=';
+
+export function getCouponBySchoolIdApi(data) {
+  return axiosG(getCouponBySchoolIdUrl + data)
+}
+
+// 删除优惠劵
+const deleteCouponUrl = 'school/coupon/deleteCoupon?couponId=';
+
+export function deleteCouponApi(data) {
+  return axiosd(deleteCouponUrl + data)
+}
+
+// 更新优惠卷
+const updateCouponUrl = 'school/coupon/updateCoupon';
+
+export function updateCouponApi(data) {
+  return axiosK(updateCouponUrl, data)
+}
+
+// 获取学校课程列表接口
+const getSchoolCourseListUrl = 'school/getSchoolCourseName?schoolId=';
+
+export function getSchoolCourseListApi(data) {
+  return axiosG(getSchoolCourseListUrl + data)
+}
+
+// 上传文件
+export const uploadCouponPictureUrl = 'school/coupon/uploadCouponPicture';

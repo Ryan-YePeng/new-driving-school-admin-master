@@ -1,9 +1,14 @@
 <template>
-  <div id="Order" style="background-color: white;padding: 10px 20px;border-radius: 5px">
-    <el-page-header @back="goBack" content="驾校列表"></el-page-header>
-    <el-card class="box-card" style="margin-top: 20px">
+  <div id="Order" style="background-color: white;border-radius: 5px">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>{{schoolName}}订单</span>
+        <span>驾校订单</span>
+        <el-select style="float: right" v-model="orderState" placeholder="搜索文章类型" clearable size="mini"
+                   @change="getOrderList">
+          <el-option label="支付成功" value="1"></el-option>
+          <el-option label="支付中" value="2"></el-option>
+          <el-option label="支付失败" value="0"></el-option>
+        </el-select>
       </div>
       <div>
         <el-table v-loading="isLoading" :data="formData" max-height="100%">
@@ -120,22 +125,20 @@
   import Pagination from '@/components/pagination'
 
   export default {
+    name: 'Order',
     components: {Pagination},
     props: {
       schoolId: {
         type: Number,
         default: () => 0
-      },
-      schoolName: {
-        type: String,
-        default: () => ''
       }
     },
     data() {
       return {
         formData: [],
         isLoading: false,
-        isLoadingButton: false
+        isLoadingButton: false,
+        orderState: ''
       }
     },
     mounted() {
@@ -146,7 +149,7 @@
       getOrderList() {
         this.isLoading = true;
         let pagination = this.$refs['pagination'].pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}&orderState=`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}&orderState=${this.orderState}`;
         getOrderListApi(param).then(result => {
           let response = result.data.resultParm.orderList;
           this.formData = response.records;
@@ -170,12 +173,6 @@
               this.$refs[id].doClose()
             })
       },
-      // 退出
-      goBack() {
-        this.$msgBox('确认退出？').then(() => {
-          this.$emit('tab')
-        })
-      }
     }
   }
 </script>

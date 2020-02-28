@@ -16,7 +16,7 @@ export function addPictureApi(data) {
 }
 
 //  上传文件
-export const uploadPictureApi = 'admin/uploadPicture';
+export const uploadPictureUrl = 'admin/uploadPicture';
 
 // 删除图片
 const deletePictureUrl = 'admin/deletePicture?pictureId=';

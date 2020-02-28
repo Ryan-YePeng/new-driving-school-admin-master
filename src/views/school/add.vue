@@ -219,7 +219,7 @@
     },
     computed: {
       baseApi() {
-        return process.env.BASE_API
+        return process.env.VUE_APP_BASE_API
       },
       uploadUrl() {
         return uploadSchoolPicturesUrl

@@ -50,7 +50,7 @@ export function uploadHeadPictureApi(data) {
 export const uploadSchoolPicturesUrl = 'school/uploadSchoolTrainingPicture';
 
 /**
- * @module 驾照类型
+ * @module 课程
  * */
 
 // 获得驾照类型
@@ -59,10 +59,6 @@ const getDrivingTypeListUrl = 'school/getDrivingTypeList';
 export function getDrivingTypeListApi() {
   return axiosG(getDrivingTypeListUrl)
 }
-
-/**
- * @module 课程
- * */
 
 // 获取学校课程列表接口
 const getSchoolCourseListUrl = 'school/getSchoolCourseList?';

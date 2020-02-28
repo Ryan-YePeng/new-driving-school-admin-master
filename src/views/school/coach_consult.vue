@@ -33,7 +33,7 @@
               <span>{{ scope.row.createTime | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="200">
+          <el-table-column label="操作" align="center" width="80">
             <template slot-scope="scope">
               <el-popover
                 :ref="scope.row.coachConsultId"

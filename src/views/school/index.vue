@@ -230,9 +230,6 @@
             });
           });
 
-          /*驾校课程*/
-          _this.getSchoolCourseList(data.schoolId);
-
           /*驾校资讯方式*/
           objectEvaluate(data, _this.form_r);
         } finally {

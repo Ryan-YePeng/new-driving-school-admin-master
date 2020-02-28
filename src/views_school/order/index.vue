@@ -76,11 +76,6 @@
         isLoadingButton: false
       }
     },
-    computed: {
-      schoolId() {
-        return this.$store.getters.schoolId
-      }
-    },
     mounted() {
       this.getOrderList();
     },
@@ -89,7 +84,7 @@
       getOrderList() {
         this.isLoading = true;
         let pagination = this.$refs['pagination'].pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}&orderState=`;
+        let param = `current=${pagination.current}&size=${pagination.size}&orderState=`;
         getOrderListApi(param).then(result => {
           let response = result.data.resultParm.orderList;
           this.formData = response.records;

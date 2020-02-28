@@ -74,11 +74,6 @@
         schoolCommentList: []
       }
     },
-    computed: {
-      schoolId() {
-        return this.$store.getters.schoolId
-      }
-    },
     mounted() {
       this.getSchoolCommentList()
     },
@@ -87,7 +82,7 @@
       getSchoolCommentList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
+        let param = `current=${pagination.current}&size=${pagination.size}`;
         getSchoolCommentListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolCommentList;

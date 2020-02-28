@@ -8,14 +8,14 @@ export function getCoachListApi(data) {
 }
 
 // 删除教练接口
-const deleteCoachUrl = 'admin/deleteCoach?coachId=';
+const deleteCoachUrl = 'school/deleteCoach?coachId=';
 
 export function deleteCoachApi(data) {
   return axiosd(deleteCoachUrl + data)
 }
 
 // 更新教练
-const updateCoachUrl = 'admin/coach/updateCoach';
+const updateCoachUrl = 'school/coach/updateCoach';
 
 export function updateCoachApi(data) {
   return axiosK(updateCoachUrl, data)
@@ -40,28 +40,28 @@ export function getSchoolNameApi(data) {
  * */
 
 // 增加教练课程接口
-const addCoachCourseUrl = 'admin/addCoachCourse';
+const addCoachCourseUrl = 'school/addCoachCourse';
 
 export function addCoachCourseApi(data) {
   return axiosK(addCoachCourseUrl, data)
 }
 
 // 删除教练课程接口
-const deleteCoachCourseUrl = 'admin/deleteCoachCourse?coachCourseId=';
+const deleteCoachCourseUrl = 'school/deleteCoachCourse?coachCourseId=';
 
 export function deleteCoachCourseApi(data) {
   return axiosd(deleteCoachCourseUrl + data)
 }
 
 // 获得教练课程接口
-const getCoachCourseListUrl = 'admin/getCoachCourseList?';
+const getCoachCourseListUrl = 'school/getCoachCourseList?';
 
 export function getCoachCourseListApi(data) {
   return axiosG(getCoachCourseListUrl + data)
 }
 
 // 获取学校课程列表接口
-const getSchoolCourseListUrl = 'admin/getSchoolCourseName?schoolId=';
+const getSchoolCourseListUrl = 'school/getSchoolCourseName?schoolId=';
 
 export function getSchoolCourseListApi(data) {
   return axiosG(getSchoolCourseListUrl + data)
@@ -90,14 +90,14 @@ export function coachDisRecommendApi(data) {
  * */
 
 // 获得教练评论
-const getCoachCommentListUrl = 'admin/getCoachCommentList?';
+const getCoachCommentListUrl = 'school/getCoachCommentList?';
 
 export function getCoachCommentListApi(data) {
   return axiosG(getCoachCommentListUrl + data)
 }
 
 // 删除教练评论
-const deleteCoachCommentUrl = 'admin/deleteCoachComment?coachCommentId=';
+const deleteCoachCommentUrl = 'school/deleteCoachComment?coachCommentId=';
 
 export function deleteCoachCommentApi(data) {
   return axiosd(deleteCoachCommentUrl + data)

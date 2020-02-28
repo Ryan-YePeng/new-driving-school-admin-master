@@ -18,13 +18,6 @@ module.exports = {
           "component": "carousel"
         },
         {
-          "id": 2,
-          "name": "导航栏管理",
-          "icon": "navigation",
-          "path": "navigation",
-          "component": "navigation"
-        },
-        {
           "id": 3,
           "name": "代金券管理",
           "icon": "voucher",
@@ -80,48 +73,31 @@ module.exports = {
     },
     {
       "id": 5,
-      "name": "审核",
+      "name": "入驻审核",
       "icon": "audit",
       "path": "audit",
       "component": "audit",
       "children": [
         {
           "id": 6,
-          "name": "驾校入驻列表",
+          "name": "驾校入驻审核",
           "icon": "schoolin",
           "path": "schoolin",
           "component": "schoolin"
         },
-
         {
           "id": 11,
           "name": "教练入驻审核",
           "icon": "coachin",
           "path": "coachin",
           "component": "coachin"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "信息管理",
-      "icon": "info",
-      "path": "info",
-      "component": "info",
-      "children": [
-        {
-          "id": 12,
-          "name": "订单管理",
-          "icon": "order",
-          "path": "order",
-          "component": "order"
         },
         {
-          "id": 13,
-          "name": "表单管理",
-          "icon": "form",
-          "path": "form",
-          "component": "form"
+          "id": 11,
+          "name": "入驻电话管理",
+          "icon": "phone",
+          "path": "phone",
+          "component": "phone"
         }
       ]
     },

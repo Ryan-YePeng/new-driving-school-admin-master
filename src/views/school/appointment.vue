@@ -6,31 +6,23 @@
       </div>
       <div>
         <el-table v-loading="isLoading" :data="foreSpeakList" max-height="100%" style="width: 100%">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="咨询内容：">
-                  <span>{{ props.row.question }}</span>
-                </el-form-item>
-              </el-form>
+          <el-table-column
+                  prop="realName"
+                  label="学生姓名">
+          </el-table-column>
+          <el-table-column
+                  prop="contactPhone"
+                  label="联系电话">
+          </el-table-column>
+          <el-table-column label="预约时间" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{ scope.row.foreSpeakTime | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="realName"
-            label="姓名">
-          </el-table-column>
-          <el-table-column
-            prop="username"
-            label="手机号">
-          </el-table-column>
-          <el-table-column
-            prop="question"
-            label="咨询内容"
-            :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="createTime" label="咨询时间" :show-overflow-tooltip="true">
+          <el-table-column label="预约状态">
             <template slot-scope="scope">
-              <span>{{ scope.row.createTime | formatDateTime }}</span>
+              <el-tag v-if="scope.row.foreSpeakState==true" type="success">已预约</el-tag>
+              <el-tag v-if="scope.row.foreSpeakState==false" type="warning">预约中</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -70,8 +62,8 @@
         let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
         getForeSpeakListApi(param).then(result => {
           this.isLoading = false;
-          let response = result.data.resultParm.ForeSpeakList;
-          this.ForeSpeakList = response.records;
+          let response = result.data.resultParm.foreSpeakList;
+          this.foreSpeakList = response.records;
           pagination.total = response.total
         })
       }

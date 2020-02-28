@@ -15,12 +15,12 @@
             <el-form :model="form_i" :rules="form_i_rules" ref="form_i" label-width="120px" hide-required-asterisk>
               <el-form-item label="驾校封面:" prop="headPicture">
                 <picture-uploader
-                  ref="PictureUploader"
-                  :width="'200px'"
-                  :height="'150px'"
-                  :fixedNumber="[4, 3]"
-                  :imageUrl="imageUrl"
-                  @getImage="getImageAndUpload"
+                        ref="PictureUploader"
+                        :width="'200px'"
+                        :height="'150px'"
+                        :fixedNumber="[4, 3]"
+                        :imageUrl="imageUrl"
+                        @getImage="getImageAndUpload"
                 ></picture-uploader>
               </el-form-item>
               <el-form-item label="驾校全称:" prop="schoolFullName">
@@ -32,19 +32,19 @@
               <el-form-item label="驾校性质:" prop="schoolNature">
                 <el-select v-model="form_i.schoolNature" placeholder="请选择驾校性质" size="mini">
                   <el-option
-                    v-for="item in options"
-                    :key="item.id"
-                    :label="item.label"
-                    :value="item.value">
+                          v-for="item in options"
+                          :key="item.id"
+                          :label="item.label"
+                          :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="驾校位置:">
                 <el-cascader
-                  size="mini"
-                  placeholder="请选择驾校位置位置"
-                  :options="optionData"
-                  v-model="selectedOptions">
+                        size="mini"
+                        placeholder="请选择驾校位置位置"
+                        :options="optionData"
+                        v-model="selectedOptions">
                 </el-cascader>
               </el-form-item>
               <el-form-item label="详细地址:" prop="address">
@@ -69,13 +69,13 @@
           </div>
           <div>
             <el-upload
-              ref="SchoolPicture"
-              :action="baseApi + uploadUrl"
-              :headers=headers
-              accept=".jpg,.png,.gif,.jepg,.jpeg"
-              :on-success="uploadSuccess"
-              list-type="picture-card"
-              :file-list="fileList">
+                    ref="SchoolPicture"
+                    :action="baseApi + uploadUrl"
+                    :headers=headers
+                    accept=".jpg,.png,.gif,.jepg,.jpeg"
+                    :on-success="uploadSuccess"
+                    list-type="picture-card"
+                    :file-list="fileList">
               <i class="el-icon-plus"></i>
             </el-upload>
           </div>
@@ -100,92 +100,28 @@
             </el-form>
           </div>
         </el-card>
+      </el-tab-pane>
 
-        <!--驾校课程-->
-        <el-card class="box-card" style="margin-top: 20px">
-          <div slot="header" class="clearfix">
-            <span>驾校课程</span>
-            <el-button style="float: right;" type="primary" @click="addSchoolCourse()">
-              新增
-            </el-button>
-          </div>
-          <div>
-            <el-table v-loading="isLoading" :data="form_Data" max-height="100%">
-              <el-table-column
-                prop="schoolCourseName"
-                label="班型名称">
-              </el-table-column>
-              <el-table-column
-                prop="schoolCourseType"
-                label="驾照类型">
-              </el-table-column>
-              <el-table-column
-                prop="schoolCoursePrice"
-                label="费用">
-              </el-table-column>
-              <el-table-column label="操作" align="center" width="200">
-                <template slot-scope="scope">
-                  <el-button type="primary" class="el-icon-edit" @click="editSchoolCourse(scope.row)"
-                             size="mini"></el-button>
-                  <el-popover
-                    :ref="scope.row.schoolCourseId"
-                    placement="top"
-                    width="180">
-                    <p>确定删除本条数据吗？</p>
-                    <div style="text-align: right; margin: 0">
-                      <el-button size="mini" type="text" @click="$refs[scope.row.schoolCourseId].doClose()">取消
-                      </el-button>
-                      <el-button :loading="isLoadingButton" type="primary" size="mini"
-                                 @click.stop="deleteCourse(scope.row.schoolCourseId)">确定
-                      </el-button>
-                    </div>
-                    <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
-                  </el-popover>
-                </template>
-              </el-table-column>
-            </el-table>
-            <pagination ref="pagination" @getNewData="getC"></pagination>
-          </div>
-        </el-card>
-
-        <!--驾校课程添加框-->
-        <el-dialog :title="title" width="600px" append-to-body @close="cancelCourse" :close-on-click-modal="false"
-                   :visible.sync="dialogTableVisible">
-          <el-form :model="form_c" :rules="form_c_rules" ref="form_c" label-width="120px" hide-required-asterisk>
-            <el-form-item label="班型名称:" placeholder="请输入班型名称" prop="schoolCourseName">
-              <el-input v-model="form_c.schoolCourseName" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="驾照类型:">
-              <el-select v-model="form_c.schoolCourseType" placeholder="请选择驾照类型">
-                <el-option
-                  v-for="item in courseTypeOptions"
-                  :key="item"
-                  :label="item"
-                  :value="item">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="费用:" prop="schoolCoursePrice">
-              <el-input-number v-model="form_c.schoolCoursePrice" :min="1" :max="99999" label="描述文字"></el-input-number>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogTableVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm_c('form_c')" :isloading="form_c_btn">确 定</el-button>
-          </div>
-        </el-dialog>
+      <el-tab-pane label="驾校咨询" name="SchoolConsult">
+        <school-consult v-if="activeName==='SchoolConsult'" :schoolId="schoolId"></school-consult>
       </el-tab-pane>
-      <el-tab-pane label="驾校咨询" name="驾校咨询">
-        <school-consult v-if="activeName==='驾校咨询'" :schoolId="schoolId"></school-consult>
+      <el-tab-pane label="驾校评论" name="SchoolComment">
+        <school-comment v-if="activeName==='SchoolComment'" :schoolId="schoolId"></school-comment>
       </el-tab-pane>
-      <el-tab-pane label="驾校评论" name="驾校评论">
-        <school-comment v-if="activeName==='驾校评论'" :schoolId="schoolId"></school-comment>
+      <el-tab-pane label="驾校订单" name="Order">
+        <order v-if="activeName==='Order'" :schoolId="schoolId"></order>
       </el-tab-pane>
-      <el-tab-pane label="教练咨询" name="教练咨询">
-        <coach-consult v-if="activeName==='教练咨询'" :schoolId="schoolId"></coach-consult>
+      <el-tab-pane label="学校课程" name="SchoolCourse">
+        <school-course v-if="activeName==='SchoolCourse'" :schoolId="schoolId"></school-course>
       </el-tab-pane>
-      <el-tab-pane label="学生预约" name="学生预约">
-        <appointment v-if="activeName==='学生预约'" :schoolId="schoolId"></appointment>
+      <el-tab-pane label="课程优惠卷" name="Voucher">
+        <voucher v-if="activeName==='Voucher'" :schoolId="schoolId"></voucher>
+      </el-tab-pane>
+      <el-tab-pane label="教练咨询" name="CoachConsult">
+        <coach-consult v-if="activeName==='CoachConsult'" :schoolId="schoolId"></coach-consult>
+      </el-tab-pane>
+      <el-tab-pane label="学生预约" name="Appointment">
+        <appointment v-if="activeName==='Appointment'" :schoolId="schoolId"></appointment>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -216,12 +152,16 @@
   import CoachConsult from './coach_consult'
   import SchoolComment from './school_comment'
   import Appointment from './appointment'
+  import Order from './order'
+  import Voucher from './voucher'
+  import SchoolCourse from './school_course'
 
   export default {
     name: "SchoolDetail",
     components: {
       SchoolConsult, CoachConsult, SchoolComment,
-      PictureUploader, Pagination, Appointment
+      PictureUploader, Pagination, Appointment,
+      Order, Voucher, SchoolCourse
     },
     data() {
       return {
@@ -273,36 +213,12 @@
         form_r_rules: {
           consultLink: {required: true, message: ' ', trigger: 'blur'}
         },
-        flag: true,
-
-        /*驾校课程*/
-        title: '',
-        dialogTableVisible: false,
-        schoolCourseId: Number,
-        form_c_btn: false,
-        isLoading: false,
-        isLoadingButton: false,
-        form_Data: [],
-        form_c: {
-          schoolCourseName: '',
-          schoolCourseType: 'A1',
-          schoolCoursePrice: 1
-        },
-        courseTypeOptions: [],
-        form_c_rules: {
-          schoolCourseName: {required: true, message: ' ', trigger: 'blur'},
-          schoolCoursePrice: {type: 'number', required: true, message: ' ', trigger: 'change'},
-
-        }
-
+        flag: true
       }
-    },
-    mounted() {
-      this.getDrivingTypeList()
     },
     computed: {
       baseApi() {
-        return process.env.BASE_API
+        return process.env.VUE_APP_BASE_API
       },
       uploadUrl() {
         return uploadSchoolPicturesUrl
@@ -317,8 +233,6 @@
     methods: {
       // 上传剪辑后的图片
       getImageAndUpload(name, data, url) { // 文件名 二进制文件 文件本地地址
-        // this.fileName = name;
-        // this.file = data;
         this.imageUrl = url;
         let formData = new FormData();
         formData.append('file', data, name);
@@ -424,101 +338,6 @@
             this.form_r_btn = false
           })
         }
-      },
-
-      // 获得驾校课程类型
-      getDrivingTypeList() {
-        getDrivingTypeListApi().then(result => {
-          this.courseTypeOptions = result.data.resultParm.drivingTypeList
-        })
-      },
-
-
-      // 获得驾校课程
-      getSchoolCourseList(id) {
-        this.isLoading = true;
-        let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${id}`;
-        getSchoolCourseListApi(param).then(result => {
-          this.isLoading = false;
-          let response = result.data.resultParm.schoolCourseList;
-          this.form_Data = response.records;
-          pagination.total = response.total;
-        })
-      },
-
-      // 添加学校课程
-      addSchoolCourse() {
-        this.title = '添加课程';
-        this.dialogTableVisible = true;
-      },
-
-      // 分页获得数据中介
-      getC() {
-        this.getSchoolCourseList(this.schoolId)
-      },
-
-      // 编辑
-      editSchoolCourse(data) {
-        this.title = '编辑课程';
-        this.dialogTableVisible = true;
-        this.schoolCourseId = data.schoolCourseId;
-        objectEvaluate(data, this.form_c)
-      },
-
-      // 删除
-      deleteCourse(id) {
-        this.isLoadingButton = true;
-        deleteSchoolCourseApi(id)
-          .then(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose();
-            this.getSchoolCourseList(this.schoolId)
-          })
-          .catch(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose()
-          })
-      },
-
-      // 提交
-      submitForm_c(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let data = {...this.form_c};
-            data.schoolId = this.schoolId;
-            if (this.title === '添加课程') {
-              this.form_c_btn = true;
-              addSchoolCourseApi(data).then(() => {
-                this.form_c_btn = false;
-                this.getSchoolCourseList(this.schoolId);
-                this.cancelCourse()
-              }).catch(() => {
-                this.form_c_btn = false;
-              })
-            } else {
-              data.schoolCourseId = this.schoolCourseId;
-              updateSchoolCourseApi(data).then(() => {
-                this.form_c_btn = false;
-                this.getSchoolCourseList(this.schoolId);
-                this.cancelCourse()
-              }).catch(() => {
-                this.form_c_btn = false;
-              })
-            }
-          } else {
-            return false;
-          }
-        });
-      },
-
-      // 关闭课程表单
-      cancelCourse() {
-        this.dialogTableVisible = false;
-        this.$refs['form_c'].resetFields();
-        this.form_c.schoolCourseName = '';
-        this.form_c.schoolCourseType = 'A1';
-        this.form_c.schoolCoursePrice = 1
       },
 
       // 清空数据

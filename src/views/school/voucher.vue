@@ -1,20 +1,43 @@
 <template>
-  <div id="carouselPicture">
+  <div id="voucher">
     <el-card class="box-card" style="margin: 0 auto">
       <div slot="header" class="clearfix">
-        <span>轮播图列表</span>
+        <span>优惠劵列表</span>
         <el-button style="float: right" type="primary" @click="addPicture">新增</el-button>
       </div>
       <div>
         <el-table :data="formData" max-height="100%" style="width: 100%">
-          <el-table-column prop="username" label="图片">
+          <el-table-column
+                  prop="couponContent"
+                  label="描述">
+          </el-table-column>
+          <el-table-column prop="username" label="优惠卷图片">
             <template slot-scope="scope">
               <el-avatar shape="square" :size="50" :src="baseUrl + scope.row.pictureName">
-                <img src="../../../assets/noFoundPicture.png"/>
+                <img src="../../assets/noFoundPicture.png"/>
               </el-avatar>
             </template>
           </el-table-column>
+          <el-table-column
+                  prop="couponPrice"
+                  label="优惠金额">
+          </el-table-column>
+          <el-table-column
+                  prop="schoolCourseName"
+                  label="课程名称">
+          </el-table-column>
+          <el-table-column label="开始时间">
+            <template slot-scope="scope">
+              <span>{{ scope.row.beginTime | formatDateTime }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="结束时间">
+            <template slot-scope="scope">
+              <span>{{ scope.row.endTime | formatDateTime }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" align="center" width="80">
+            <el-button style="float: right" type="primary" @click="edit" icon="el-icon-edit"></el-button>
             <template slot-scope="scope">
               <el-popover
                       :ref="scope.row.pictureId"
@@ -35,13 +58,15 @@
       </div>
     </el-card>
     <el-dialog
-            title="上传轮播图"
+            :title="title + '优惠劵'"
             width="600px"
             append-to-body
             @close="resetUploadForm"
             :close-on-click-modal="false"
             :visible.sync="dialogTableVisible">
       <el-form label-width="120px">
+
+
         <el-form-item label="上传图片:">
           <el-upload
                   ref="upload"
@@ -52,7 +77,7 @@
                   :show-file-list="false"
                   :on-success="uploadSuccess">
             <img v-if="imageUrl" :src="imageUrl" class="carousel-picture" style="width: 250px; height: auto;">
-            <i v-else class="el-icon-plus carousel-uploader-icon" style="font-size: 70px;line-height: 150px"></i>
+            <i v-else class="el-icon-plus" style="font-size: 70px;line-height: 150px"></i>
           </el-upload>
         </el-form-item>
       </el-form>
@@ -66,14 +91,24 @@
 
 <script>
   import {
-    getPictureListApi,
-    deletePictureApi,
-    uploadPictureUrl,
-    addPictureApi
-  } from '@/api/carousel_picture'
-  import {carouselPictureBaseUrl} from '@/utils/path'
+    getCouponBySchoolIdApi,
+    updateCouponApi,
+    addCouponApi,
+    deleteCouponApi,
+    uploadCouponPictureUrl,
+    getSchoolCourseListApi,
+  } from "@/api/voucher";
+
+  import {voucherPictureBaseUrl} from '@/utils/path'
 
   export default {
+    name: 'Voucher',
+    props: {
+      schoolId: {
+        type: Number,
+        default: () => 0
+      }
+    },
     data() {
       return {
         formData: [],
@@ -82,32 +117,53 @@
         uploadTableVisible: false,
         imageUrl: '',
         pictureName: '',
+
+        title: '新增',
+
+        form: {
+          couponContent: '',
+          couponPicture: '',
+          couponPrice: 1,
+          schoolCourseId: '',
+          beginTime: Date,
+          endTime: Date
+        },
+
+        courseList: [],
+
         isDialogLoading: false,
         isLoadingButton: false
       }
     },
     computed: {
       baseUrl() {
-        return carouselPictureBaseUrl
+        return voucherPictureBaseUrl
       },
       baseApi() {
         return process.env.VUE_APP_BASE_API
       },
       uploadUrl() {
-        return uploadPictureUrl
+        return uploadCouponPictureUrl
       },
       headers() {
         return {'Authorization': this.$store.getters.token}
       }
     },
     mounted() {
-      this.getPictureList()
+      this.getCouponBySchoolId();
+      this.getSchoolCourseList();
     },
     methods: {
       // 获得图片列表
-      getPictureList() {
-        getPictureListApi().then(result => {
-          this.formData = result.data.resultParm.pictureList
+      getCouponBySchoolId() {
+        getCouponBySchoolIdApi(this.schoolId).then(result => {
+          this.formData = result.data.resultParm.couponList
+        })
+      },
+      // 获得课程列表
+      getSchoolCourseList() {
+        getSchoolCourseListApi(this.schoolId).then(result => {
+          this.courseList = result.data.resultParm.courseList;
         })
       },
       // 添加轮播图
@@ -119,6 +175,10 @@
         this.imageUrl = URL.createObjectURL(file.raw);
         this.pictureName = res.resultParm.message
       },
+      // 修改优惠劵
+      edit() {
+      },
+
       // 提交
       submitForm() {
         if (!this.pictureName) {
@@ -161,7 +221,7 @@
 
 
 <style lang="scss">
-  #carouselPicture {
+  #voucher {
     .clearfix:before,
     .clearfix:after {
       display: table;
@@ -173,11 +233,7 @@
     }
 
     .box-card {
-      width: 70%;
-    }
-
-    .carousel-uploader-icon {
-      line-height: 150px !important;
+      width: 100%;
     }
   }
 </style>

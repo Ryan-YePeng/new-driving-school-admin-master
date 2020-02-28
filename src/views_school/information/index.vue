@@ -180,7 +180,7 @@
     },
     computed: {
       baseApi() {
-        return process.env.BASE_API
+        return process.env.VUE_APP_BASE_API
       },
       uploadUrl() {
         return uploadSchoolPicturesUrl
@@ -190,9 +190,6 @@
       },
       pictureUrl() {
         return schoolPictureBaseUrl
-      },
-      schoolId() {
-        return this.$store.getters.schoolId
       }
     },
     methods: {
@@ -220,7 +217,6 @@
       // 提交form_i
       submitForm_i(formName) {
         let data = {...this.form_i};
-        data.schoolId = this.schoolId;
         if (this.selectedOptions.length === 1) {
           data.province = CodeToText[this.selectedOptions[0]];
           data.city = '';
@@ -272,7 +268,7 @@
           return
         }
         this.form_p_btn = true;
-        updateSchoolApi({trainingPicture: str, schoolId: this.schoolId}).then(() => {
+        updateSchoolApi({trainingPicture: str}).then(() => {
           this.form_p_btn = false;
         }).catch(() => {
           this.form_p_btn = false
@@ -282,7 +278,6 @@
       // 保存驾校咨询
       submitForm_r() {
         let data = {...this.form_r};
-        data.schoolId = this.schoolId;
         if (this.form_r.isConsult) {
           this.$refs['form_r'].validate((valid) => {
             if (valid) {

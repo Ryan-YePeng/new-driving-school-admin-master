@@ -32,12 +32,12 @@
               :show-overflow-tooltip="true"
               label="所属驾校">
             </el-table-column>
-            <el-table-column prop="isRecommend" label="是否推荐">
-              <template slot-scope="scope">
-                <el-switch v-model="scope.row.isRecommend"
-                           @change="recommend(scope.row.coachId,scope.row.isRecommend)"></el-switch>
-              </template>
-            </el-table-column>
+<!--            <el-table-column prop="isRecommend" label="是否推荐">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <el-switch v-model="scope.row.isRecommend"-->
+            <!--                           @change="recommend(scope.row.coachId,scope.row.isRecommend)"></el-switch>-->
+            <!--              </template>-->
+            <!--            </el-table-column>-->
             <el-table-column label="操作" align="center" width="180">
               <template slot-scope="scope">
                 <el-button type="primary" @click="edit(scope.row)" size="mini" class="el-icon-zoom-in"></el-button>
@@ -102,8 +102,6 @@
         searchName: '',
         searchPhone: '',
         searchSchool: ''
-
-
       }
     },
     mounted() {

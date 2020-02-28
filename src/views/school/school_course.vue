@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <!--驾校课程-->
-    <el-card class="box-card" style="margin-top: 20px">
+  <div id="school-course">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>驾校课程</span>
         <el-button style="float: right;" type="primary" @click="addSchoolCourse()">
@@ -11,25 +10,29 @@
       <div>
         <el-table v-loading="isLoading" :data="form_Data" max-height="100%">
           <el-table-column
-            prop="schoolCourseName"
-            label="班型名称">
+                  prop="schoolCourseName"
+                  label="班型名称">
           </el-table-column>
           <el-table-column
-            prop="schoolCourseType"
-            label="驾照类型">
+                  prop="schoolCourseType"
+                  label="驾照类型">
           </el-table-column>
           <el-table-column
-            prop="schoolCoursePrice"
-            label="费用">
+                  prop="learnCycle"
+                  label="学车周期(天)">
+          </el-table-column>
+          <el-table-column
+                  prop="schoolCoursePrice"
+                  label="费用">
           </el-table-column>
           <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-button type="primary" class="el-icon-edit" @click="editSchoolCourse(scope.row)"
                          size="mini"></el-button>
               <el-popover
-                :ref="scope.row.schoolCourseId"
-                placement="top"
-                width="180">
+                      :ref="scope.row.schoolCourseId"
+                      placement="top"
+                      width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="$refs[scope.row.schoolCourseId].doClose()">取消
@@ -43,7 +46,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <pagination ref="pagination" @getNewData="getDrivingTypeList"></pagination>
+        <pagination ref="pagination" @getNewData="getSchoolCourseList"></pagination>
       </div>
     </el-card>
 
@@ -57,15 +60,19 @@
         <el-form-item label="驾照类型:">
           <el-select v-model="form_c.schoolCourseType" placeholder="请选择驾照类型">
             <el-option
-              v-for="item in courseTypeOptions"
-              :key="item"
-              :label="item"
-              :value="item">
+                    v-for="item in courseTypeOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item">
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="学车周期:" prop="learnCycle">
+          <el-input-number v-model="form_c.learnCycle" :min="1" :max="99999"></el-input-number>
+        </el-form-item>
         <el-form-item label="费用:" prop="schoolCoursePrice">
-          <el-input-number v-model="form_c.schoolCoursePrice" :min="0.01" :precision="2" :max="99999.99"></el-input-number>
+          <el-input-number v-model="form_c.schoolCoursePrice" :min="0.01" :precision="2"
+                           :max="99999.99"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -77,21 +84,22 @@
 </template>
 
 <script>
-  import Pagination from '@/components/pagination'
-  import {
-    getDrivingTypeListApi,
-    getSchoolCourseListApi,
-    addSchoolCourseApi,
-    updateSchoolCourseApi,
-    deleteSchoolCourseApi
-  } from "@/api/school";
+  import {addSchoolCourseApi, deleteSchoolCourseApi, getDrivingTypeListApi, updateSchoolCourseApi} from "@/api/school";
+  import {getSchoolCourseListApi} from "@/api/school";
   import {objectEvaluate} from "@/utils/common";
+  import Pagination from '@/components/pagination'
 
   export default {
+    name: "SchoolCourse",
     components: {Pagination},
+    props: {
+      schoolId: {
+        type: Number,
+        default: () => 0
+      }
+    },
     data() {
       return {
-        /*驾校课程*/
         title: '',
         dialogTableVisible: false,
         schoolCourseId: Number,
@@ -102,33 +110,27 @@
         form_c: {
           schoolCourseName: '',
           schoolCourseType: 'A1',
-          schoolCoursePrice: 1
+          schoolCoursePrice: 1,
+          learnCycle: 1
         },
         courseTypeOptions: [],
         form_c_rules: {
           schoolCourseName: {required: true, message: ' ', trigger: 'blur'},
           schoolCoursePrice: {type: 'number', required: true, message: ' ', trigger: 'change'},
-
+          learnCycle: {type: 'number', required: true, message: ' ', trigger: 'change'},
         }
       }
     },
     mounted() {
-      this.getDrivingTypeList();
       this.getSchoolCourseList();
+      this.getDrivingTypeList();
     },
     methods: {
-      // 获得驾校课程类型
-      getDrivingTypeList() {
-        getDrivingTypeListApi().then(result => {
-          this.courseTypeOptions = result.data.resultParm.drivingTypeList
-        })
-      },
-
       // 获得驾校课程
       getSchoolCourseList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
         getSchoolCourseListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolCourseList;
@@ -137,10 +139,40 @@
         })
       },
 
+      // 获得驾校课程类型
+      getDrivingTypeList() {
+        getDrivingTypeListApi().then(result => {
+          this.courseTypeOptions = result.data.resultParm.drivingTypeList
+        })
+      },
+
       // 添加学校课程
       addSchoolCourse() {
         this.title = '添加课程';
         this.dialogTableVisible = true;
+      },
+
+      // 编辑
+      editSchoolCourse(data) {
+        this.title = '编辑课程';
+        this.dialogTableVisible = true;
+        this.schoolCourseId = data.schoolCourseId;
+        objectEvaluate(data, this.form_c)
+      },
+
+      // 删除
+      deleteCourse(id) {
+        this.isLoadingButton = true;
+        deleteSchoolCourseApi(id)
+            .then(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose();
+              this.getSchoolCourseList(this.schoolId)
+            })
+            .catch(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose()
+            })
       },
 
       // 提交
@@ -174,41 +206,28 @@
         });
       },
 
-      // 编辑
-      editSchoolCourse(data) {
-        this.title = '编辑课程';
-        this.dialogTableVisible = true;
-        this.schoolCourseId = data.schoolCourseId;
-        objectEvaluate(data, this.form_c)
-      },
-
-      // 删除课程
-      deleteCourse(id) {
-        this.isLoadingButton = true;
-        deleteSchoolCourseApi(id)
-          .then(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose();
-            this.getSchoolCourseList(this.schoolId)
-          })
-          .catch(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose()
-          })
-      },
-
       // 关闭课程表单
       cancelCourse() {
         this.dialogTableVisible = false;
         this.$refs['form_c'].resetFields();
-        this.form_c.schoolCourseName = '';
-        this.form_c.schoolCourseType = 'A1';
-        this.form_c.schoolCoursePrice = 1
-      }
+        Object.assign(this.$data.form_c, this.$options.data().form_c);
+      },
     }
   }
 </script>
 
 <style scoped>
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
 
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 100%;
+  }
 </style>
