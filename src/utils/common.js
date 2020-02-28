@@ -11,8 +11,6 @@ export const isEmpty = value => {
     (typeof value === "string" && value.trim().length === 0)
   )
 };
-
-
 /**
  * @param {String} value
  * @return {String}

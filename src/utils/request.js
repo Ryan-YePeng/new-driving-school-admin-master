@@ -1,9 +1,12 @@
 import axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
+import qs from 'qs'
+import {MessageBox} from 'element-ui'
+import {errorMessage, successMsg, errorMsg} from '../utils/EUI'
+import {isEmpty} from "../utils/common";
 import router from '../router/index'
 import store from '../store/index'
 
-let errorMsg = '';
+let errorCode = null;
 
 const service = axios.create({
   timeout: 20000,
@@ -12,78 +15,72 @@ const service = axios.create({
 });
 
 service.interceptors.request.use( //请求拦截
-  config => { //成功
-    let token = store.getters.token;
-    let url = config.url;
-    if (isAddToken(url)) {
-      config.headers.Authorization = token
+    config => { //成功
+      let token = store.getters.token;
+      let url = config.url;
+      if (isAddToken(url)) {
+        config.headers.Authorization = token
+      }
+      return config
+    },
+    error => { //错误
+      errorMessage('请求错误！');
+      return Promise.reject(error)
     }
-    return config
-  },
-  error => { //错误
-    Message.error('请求错误');
-    return Promise.reject(error)
-  }
 );
 
 service.interceptors.response.use( //响应拦截
-  response => { //成功
-    const {message} = response.data;
-    if (message) Message.success(message);
-    return response
-  },
-  error => { //错误
-    let code = 0;
-    try {
-      code = error.response.status;
-    }
-    catch (e) {
+    response => { //成功
+      const {message} = response.data;
+      if (message) successMsg(message);
+      return response
+    },
+    error => { //错误
+      /* 请求超时！*/
       if (error.toString().includes('timeout')) {
-        let msg = '网络请求超时！';
-        if (msg === errorMsg) return Promise.reject(error);
-        errorMsg = msg;
-        Message.error(msg)
+        errorMessage('请求超时！');
+        return
+      }
+      /* 网络错误！ */
+      let statusText = '';
+      try {
+        statusText = error.response.statusText = 'Internal Server Error';
+      } finally {
+        if (statusText === 'Internal Server Error') {
+          errorMessage('网络错误，请检查您的网络状况！')
+        }
+      }
+      const {code, message} = error.response.data;
+      /* 401 */
+      if (code === 401) {
+        if (message.length < 15) {
+          errorMessage(message)
+        } else {
+          if (errorCode === code) return;
+          errorCode = code;
+          MessageBox.confirm(
+              '登录状态已过期，您可以继续留在该页面，或者重新登录',
+              '系统提示',
+              {
+                confirmButtonText: '重新登录',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }
+          ).then(() => {
+            router.push({name: 'login'})
+          }).catch(() => errorCode = null)
+        }
+      }
+      /* 403 */
+      else if (code === 403) {
+        router.push({name: 'error403'})
+      }
+      /* elseCode */
+      else {
+        if (isEmpty(message)) errorMsg(message);
       }
       return Promise.reject(error)
     }
-    const {message} = error.response.data;
-    if (code === 504) {
-      if (error.response.statusText === 'Gateway Timeout') {
-        let msg = '网络错误！';
-        if (msg === errorMsg) return;
-        errorMsg = msg;
-        Message.error(msg)
-      }
-    }
-    else if (code === 401) {
-      if (message.length < 15) {
-        Message.error(message)
-      } else {
-        let msg = '登录状态已过期，您可以继续留在该页面，或者重新登录';
-        if (errorMsg === msg) return;
-        errorMsg = msg;
-        MessageBox.confirm(
-          '登录状态已过期，您可以继续留在该页面，或者重新登录',
-          '系统提示',
-          {
-            confirmButtonText: '重新登录',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }
-        ).then(() => {
-          router.push({name: 'login'})
-        }).catch(() => errorMsg = '')
-      }
-    }
-    else if (code === 403) {
-      if (router.path !== '/403') router.push({name: 'error403'})
-    }
-    else {
-      if (message !== undefined) Message.error(message);
-    }
-    //console.log(error.response);
-    return Promise.reject(error)
-  }
 );
 
 /**
@@ -150,11 +147,7 @@ export const axiosK = (url, param) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       transformRequest: [(data) => {
-        let str = '';
-        for (let key in data) {
-          str = str + `${key}=${data[key]}&`;
-        }
-        return str.replace(/&$/, '')
+        return qs.stringify(data)
       }]
     }).then(result => {
       resolve(result)
@@ -260,18 +253,14 @@ export const axiosL = url => {
   })
 };
 
-/*白名单*/
+/**
+ * @description 白名单，不添加token的接口
+ * */
 const ignoreTokenArray = [
-  'common/login',
+  "common/login"
 ];
-
-const isAddToken = (url) => {
-  let isAdd = true;
-  ignoreTokenArray.some(item => {
-    if (url.includes(item)) {
-      isAdd = false;
-      return true
-    }
+const isAddToken = url => {
+  return ignoreTokenArray.some(item => {
+    return url !== item;
   });
-  return isAdd;
 };

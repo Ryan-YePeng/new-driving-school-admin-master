@@ -60,6 +60,7 @@
     width: 20px;
     height: 20px;
     vertical-align: -0.45em;
+    padding-right: 8px;
   }
 
   .svg-external-icon {

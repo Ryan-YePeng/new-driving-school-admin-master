@@ -10,12 +10,6 @@
       text-color="#becad8"
       :unique-opened="true"
     >
-<!--      <div class="logo" v-if="!isCollapse">-->
-<!--        <img src="../../assets/yourLogo.png" alt="logo.png">-->
-<!--      </div>-->
-<!--      <div class="runLogo" v-else>-->
-<!--        <i class="iconfont icon-run"></i>-->
-<!--      </div>-->
       <template v-for="item in menuList">
         <!--一级菜单X-->
         <el-menu-item v-if="!item.children || item.children.length===0" :index="item.name"
