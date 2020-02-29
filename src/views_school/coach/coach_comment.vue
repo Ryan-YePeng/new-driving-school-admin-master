@@ -5,31 +5,31 @@
         <span>驾校评论列表</span>
       </div>
       <div>
-        <el-table v-loading="isLoading" :data="schoolCommentList" max-height="100%" style="width: 100%">
+        <el-table v-loading="isLoading" :data="coachCommentList" max-height="100%" style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="评论内容：">
-                  <span>{{ props.row.schoolCommentContent }}</span>
+                  <span>{{ props.row.coachCommentContent }}</span>
                 </el-form-item>
               </el-form>
             </template>
           </el-table-column>
           <el-table-column
             prop="nickName"
-            label="用户名">
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="username"
             label="手机号">
           </el-table-column>
           <el-table-column
-            prop="schoolCommentContent"
+            prop="coachCommentContent"
             label="评论内容"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            prop="schoolCommentScore"
+            prop="coachCommentScore"
             label="评分">
           </el-table-column>
           <el-table-column prop="createDate" label="评论时间" :show-overflow-tooltip="true">
@@ -37,17 +37,17 @@
               <span>{{ scope.row.createDate | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="80">
+          <el-table-column label="操作" align="center" width="90">
             <template slot-scope="scope">
               <el-popover
-                :ref="scope.row.schoolCommentId"
+                :ref="scope.row.coachCommentId"
                 placement="top"
                 width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.schoolCommentId].doClose()">取消</el-button>
+                  <el-button size="mini" type="text" @click="$refs[scope.row.coachCommentId].doClose()">取消</el-button>
                   <el-button :loading="isLoadingButton" type="primary" size="mini"
-                             @click.stop="deleteSchoolComment(scope.row.schoolCommentId)">确定
+                             @click.stop="deleteCoachComment(scope.row.coachCommentId)">确定
                   </el-button>
                 </div>
                 <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
@@ -55,20 +55,20 @@
             </template>
           </el-table-column>
         </el-table>
-        <pagination ref="pagination" @getNewData="getSchoolCommentList"></pagination>
+        <pagination ref="pagination" @getNewData="getCoachCommentList"></pagination>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
-  import {getSchoolCommentListApi, deleteSchoolCommentApi} from '@/api/school'
+  import {getCoachCommentListApi, deleteCoachCommentApi} from '@/api/coach'
   import Pagination from '@/components/pagination/index'
 
   export default {
     components: {Pagination},
     props: {
-      schoolId: {
+      coachId: {
         type: Number,
         default: () => 0
       }
@@ -77,33 +77,33 @@
       return {
         isLoading: false,
         isLoadingButton: false,
-        schoolCommentList: []
+        coachCommentList: []
       }
     },
     mounted() {
-      this.getSchoolCommentList()
+      this.getCoachCommentList()
     },
     methods: {
       // 获得评论
-      getSchoolCommentList() {
+      getCoachCommentList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
-        getSchoolCommentListApi(param).then(result => {
+        let param = `current=${pagination.current}&size=${pagination.size}&coachId=${this.coachId}`;
+        getCoachCommentListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolCommentList;
-          this.schoolCommentList = response.records;
+          this.coachCommentList = response.records;
           pagination.total = response.total
         })
       },
       // 删除评论
-      deleteSchoolComment(id) {
+      deleteCoachComment(id) {
         this.isLoadingButton = true;
-        deleteSchoolCommentApi(id)
+        deleteCoachCommentApi(id)
           .then(() => {
             this.isLoadingButton = false;
             this.$refs[id].doClose();
-            this.getSchoolCommentList()
+            this.getCoachCommentList()
           })
           .catch(() => {
             this.isLoadingButton = false;

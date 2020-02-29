@@ -25,7 +25,7 @@
                   prop="schoolCoursePrice"
                   label="费用">
           </el-table-column>
-          <el-table-column label="操作" align="center" width="200">
+          <el-table-column label="操作" align="center" width="80">
             <template slot-scope="scope">
               <el-button type="primary" class="el-icon-edit" @click="editSchoolCourse(scope.row)"
                          size="mini"></el-button>

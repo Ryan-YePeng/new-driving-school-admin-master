@@ -102,13 +102,6 @@ module.exports = {
       "children": []
     },
     {
-      "name": "学生预约",
-      "icon": "appointment",
-      "path": "appointment",
-      "component": "appointment",
-      "children": []
-    },
-    {
       "name": "驾校评论",
       "icon": "comment",
       "path": "comment",
@@ -123,13 +116,6 @@ module.exports = {
       "children": []
     },
     {
-      "name": "教练咨询",
-      "icon": "coach_consult",
-      "path": "coach_consult",
-      "component": "coach_consult",
-      "children": []
-    },
-    {
       "name": "驾校订单",
       "icon": "order",
       "path": "order",
@@ -141,6 +127,20 @@ module.exports = {
       "icon": "voucher",
       "path": "voucher",
       "component": "voucher",
+      "children": []
+    },
+    {
+      "name": "学生预约",
+      "icon": "appointment",
+      "path": "appointment",
+      "component": "appointment",
+      "children": []
+    },
+    {
+      "name": "教练管理",
+      "icon": "coach",
+      "path": "coach",
+      "component": "coach",
       "children": []
     }
   ]
