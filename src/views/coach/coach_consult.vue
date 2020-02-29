@@ -76,12 +76,18 @@
 </template>
 
 <script>
-  import {getCoachConsultListApi, deleteCoachConsultApi} from '@/api/school'
+  import {getCoachConsultListByCoachIdApi, deleteCoachConsultApi} from '@/api/coach'
   import {getCoachReplyByConsultIdApi, addCoachReplyApi} from '@/api/reply'
   import Pagination from '@/components/pagination'
 
   export default {
     components: {Pagination},
+    props: {
+      coachId: {
+        type: Number,
+        default: () => 0
+      }
+    },
     data() {
       return {
         isLoading: false,
@@ -98,11 +104,6 @@
         resultObj: {}
       }
     },
-    computed: {
-      schoolId() {
-        return this.$store.getters.schoolId
-      }
-    },
     mounted() {
       this.getCoachConsultList()
     },
@@ -111,8 +112,8 @@
       getCoachConsultList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
-        getCoachConsultListApi(param).then(result => {
+        let param = `current=${pagination.current}&size=${pagination.size}&coachId=${this.coachId}`;
+        getCoachConsultListByCoachIdApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.coachConsultList;
           this.coachConsultList = response.records;

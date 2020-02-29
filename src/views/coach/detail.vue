@@ -64,6 +64,12 @@
       <el-tab-pane label="教练评论" name="CoachComment">
         <coach-comment v-if="activeName === 'CoachComment'" :coachId="coachId"></coach-comment>
       </el-tab-pane>
+      <el-tab-pane label="教练咨询" name="CoachConsult">
+        <coach-consult v-if="activeName === 'CoachConsult'" :coachId="coachId"></coach-consult>
+      </el-tab-pane>
+      <el-tab-pane label="学生预约" name="Appointment">
+        <appointment v-if="activeName === 'Appointment'" :coachId="coachId"></appointment>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -81,10 +87,12 @@
   import Pagination from '@/components/pagination'
   import CoachComment from './coach_comment'
   import CoachCourse from './coach_course'
+  import Appointment from './appointment'
+  import CoachConsult from './coach_consult'
 
   export default {
     name: "CoachDetail",
-    components: {CoachComment, PictureUploader, Pagination, CoachCourse},
+    components: {CoachComment, PictureUploader, Pagination, CoachCourse, Appointment, CoachConsult},
     data() {
       return {
         activeName: '教练信息',

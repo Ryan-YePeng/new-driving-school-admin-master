@@ -13,7 +13,7 @@
           </el-table-column>
           <el-table-column prop="username" label="优惠卷优惠劵">
             <template slot-scope="scope">
-              <el-avatar shape="square" :size="50" :src="baseUrl + scope.row.pictureName">
+              <el-avatar shape="square" :size="50" :src="baseUrl + scope.row.couponPicture">
                 <img src="../../assets/noFoundPicture.png"/>
               </el-avatar>
             </template>
@@ -36,9 +36,9 @@
               <span>{{ scope.row.endTime | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="80">
-            <el-button style="float: right" type="primary" @click="edit(scope.row)" icon="el-icon-edit"></el-button>
+          <el-table-column label="操作" align="center" width="150">
             <template slot-scope="scope">
+              <el-button type="primary" @click="edit(scope.row)" icon="el-icon-edit" size="mini"></el-button>
               <el-popover
                       :ref="scope.row.couponId"
                       placement="top"
@@ -220,6 +220,8 @@
         this.title = '编辑';
         objectEvaluate(obj, this.form);
         this.couponId = obj.couponId;
+        this.imageUrl = this.baseUrl + obj.couponPicture;
+        this.dialogTableVisible = true;
       },
 
       // 提交
@@ -233,8 +235,8 @@
             if (this.title === '新增') {
               addCouponApi(data).then(() => {
                 this.isDialogLoading = false;
-                this.resetUploadForm();
                 this.getCouponBySchoolId();
+                this.resetUploadForm();
               }).catch(() => {
                 this.isDialogLoading = false;
               })
@@ -242,8 +244,8 @@
               data.couponId = this.couponId;
               updateCouponApi(data).then(() => {
                 this.isDialogLoading = false;
-                this.resetUploadForm();
                 this.getCouponBySchoolId();
+                this.resetUploadForm();
               }).catch(() => {
                 this.isDialogLoading = false;
               })
@@ -260,7 +262,8 @@
             .then(() => {
               this.isLoadingButton = false;
               this.$refs[id].doClose();
-              this.getCouponBySchoolId()
+              this.getCouponBySchoolId();
+              this.resetUploadForm()
             })
             .catch(() => {
               this.isLoadingButton = false;
@@ -270,7 +273,9 @@
       // 重置上传表单
       resetUploadForm() {
         this.dialogTableVisible = false;
-        this.$refs['form'].clearFiles();
+        this.$refs['upload'].clearFiles();
+        this.$refs['form'].resetFields();
+        Object.assign(this.$data.form, this.$options.data().form);
         this.imageUrl = '';
         this.pictureName = ''
       },

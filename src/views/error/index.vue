@@ -1,24 +1,5 @@
 <template>
   <div class="error" v-title :data-title="flag ? four.title : three.title">
-    <vue-particles
-      color="#fff"
-      :particleOpacity="0.7"
-      :particlesNumber="60"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#fff"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="2"
-      :hoverEffect="true"
-      hoverMode="repulse"
-      :clickEffect="true"
-      clickMode="push"
-      class="lizi"
-    >
-    </vue-particles>
     <div id="flex-container" :style="{height: screenHeight+'px'}">
       <div class="main-w3layouts">
         <h1>{{flag ? four.h1 : three.h1}}</h1>
@@ -28,7 +9,7 @@
           <div class="botton-w3ls"><a @click="jump" style="text-decoration: none">{{flag ? four.a : three.a}}</a></div>
         </div>
         <div class="footer-w3l">
-          <p class="agileinfo"> &copy; 叶落回忆</p>
+          <p class="agileinfo"> &copy; 驾校后台管理系统</p>
         </div>
       </div>
     </div>
@@ -44,14 +25,14 @@
           title: '404',
           h1: '页面丢失',
           h2: 'ERROR 404',
-          p: '看起来你可能迷路了，别担心...一切竟在我们的掌握之中',
+          p: '',
           a: '返回上一页'
         },
         three: {
           title: '403',
           h1: '权限不足',
           h2: 'ERROR 403',
-          p: '看起来您的权限级别不够，别担心...一切竟在我们的掌握之中',
+          p: '',
           a: '返回首页'
         },
         flag: true
@@ -69,8 +50,8 @@
     methods: {
       jump() {
         this.flag === true
-          ? this.$router.go(-1)
-          : this.$router.push({name: 'home'})
+            ? this.$router.go(-1)
+            : this.$router.push({name: 'home'})
       }
     }
   }
@@ -86,14 +67,17 @@
     font-family: 'Montserrat', sans-serif;
     position: absolute;
     user-select: none;
+
     .lizi {
       z-index: 99;
     }
+
     .main-w3layouts {
       position: absolute;
       top: 0;
       left: 19%;
     }
+
     .main-agile h2 {
       font-size: 5em;
       text-align: center;
@@ -103,9 +87,11 @@
       font-weight: 600;
       text-shadow: 1px 1px 2px #000;
     }
+
     .main-agile {
       margin: 5em 0 7em;
     }
+
     .main-agile p {
       color: #fff;
       width: 59%;
@@ -116,11 +102,13 @@
       font-weight: 200;
       letter-spacing: 2px;
     }
+
     .content-wthree {
       padding: 50px 50px;
       text-align: center;
       position: relative;
     }
+
     .main-w3layouts h1 {
       color: #fffbf0;
       font-size: 5em;
@@ -130,9 +118,11 @@
       margin: 1em 0 .5em;
       text-transform: capitalize;
     }
+
     .botton-w3ls {
       text-align: center;
     }
+
     .botton-w3ls a {
       cursor: pointer;
       color: #fff;
@@ -155,6 +145,7 @@
       -o-transition: all 0.7s ease-in-out;
       -ms-transition: all 0.7s ease-in-out;
     }
+
     .botton-w3ls a:hover {
       color: #000;
       background: #fff;
@@ -165,6 +156,7 @@
       -o-transition: all 0.7s ease-in-out;
       -ms-transition: all 0.7s ease-in-out;
     }
+
     .wthree-text a {
       color: #fff;
       font-size: 13px;
@@ -172,6 +164,7 @@
       letter-spacing: 1px;
       text-transform: capitalize;
     }
+
     .footer-w3l p {
       margin: 0 auto;
       text-align: center;
@@ -180,12 +173,15 @@
       letter-spacing: 2px;
       line-height: 27px;
     }
+
     .footer-w3l p a {
       color: #fff;
     }
+
     .footer-w3l p a:hover {
       text-decoration: underline;
     }
+
     @media(max-width: 1600px) {
     }
     @media(max-width: 1440px) {

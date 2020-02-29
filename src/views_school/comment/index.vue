@@ -16,33 +16,33 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="nickName"
-            label="用户名">
+                  prop="nickName"
+                  label="用户名">
           </el-table-column>
           <el-table-column
-            prop="username"
-            label="手机号">
+                  prop="username"
+                  label="手机号">
           </el-table-column>
           <el-table-column
-            prop="schoolCommentContent"
-            label="评论内容"
-            :show-overflow-tooltip="true">
+                  prop="schoolCommentContent"
+                  label="评论内容"
+                  :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            prop="schoolCommentScore"
-            label="评分">
+                  prop="schoolCommentScore"
+                  label="评分">
           </el-table-column>
           <el-table-column prop="createDate" label="评论时间" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.createDate | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="90">
+          <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-popover
-                :ref="scope.row.schoolCommentId"
-                placement="top"
-                width="180">
+                      :ref="scope.row.schoolCommentId"
+                      placement="top"
+                      width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="$refs[scope.row.schoolCommentId].doClose()">取消</el-button>
@@ -74,6 +74,11 @@
         schoolCommentList: []
       }
     },
+    computed: {
+      schoolId() {
+        return this.$store.getters.schoolId
+      }
+    },
     mounted() {
       this.getSchoolCommentList()
     },
@@ -82,7 +87,7 @@
       getSchoolCommentList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
         getSchoolCommentListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolCommentList;
@@ -94,15 +99,15 @@
       deleteSchoolComment(id) {
         this.isLoadingButton = true;
         deleteSchoolCommentApi(id)
-          .then(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose();
-            this.getSchoolCommentList()
-          })
-          .catch(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose()
-          })
+            .then(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose();
+              this.getSchoolCommentList()
+            })
+            .catch(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose()
+            })
       }
     }
   }

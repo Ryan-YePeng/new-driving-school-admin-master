@@ -86,6 +86,24 @@ export function coachDisRecommendApi(data) {
 }
 
 /**
+ * @module 资讯
+ * */
+
+// 通过教练id获得教练资讯列表
+const getCoachConsultListByCoachIdUrl = 'school/getCoachConsultListByCoachId?';
+
+export function getCoachConsultListByCoachIdApi(data) {
+  return axiosG(getCoachConsultListByCoachIdUrl + data)
+}
+
+// 删除教练咨询列表
+const deleteCoachConsultUrl = 'school/deleteCoachConsult?coachConsultId=';
+
+export function deleteCoachConsultApi(data) {
+  return axiosd(deleteCoachConsultUrl + data)
+}
+
+/**
  * @module 评论
  * */
 
@@ -103,3 +121,20 @@ export function deleteCoachCommentApi(data) {
   return axiosd(deleteCoachCommentUrl + data)
 }
 
+/**
+ * @module 预约
+ * */
+
+// 获得预约
+const getForeSpeakListUrl = 'school/foreSpeak/getForeSpeakListByCoachId?';
+
+export function getForeSpeakListApi(data) {
+  return axiosG(getForeSpeakListUrl + data)
+}
+
+// 删除预约
+const deleteForeSpeakByIdUrl = 'school/foreSpeak/deleteForeSpeakById?foreSpeakId=';
+
+export function deleteForeSpeakByIdApi(data) {
+  return axiosd(deleteForeSpeakByIdUrl + data)
+}

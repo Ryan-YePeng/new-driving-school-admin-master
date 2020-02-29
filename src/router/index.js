@@ -78,9 +78,15 @@ export function getRouter() {
       store.dispatch('setUser', user);
       let role = user.authorities[0].authority;
       let menu;
-      role === 'ROLE_SCHOOL'
-          ? menu = menu_school
-          : menu = menu_admin;
+      if (role === 'ROLE_SCHOOL') {
+        menu = menu_school;
+        get().then(result => {
+          let schoolId = result.data.resultParm.schoolId;
+          store.dispatch('setSchoolId', schoolId)
+        })
+      } else {
+        menu = menu_admin;
+      }
       store.dispatch('setMenu', menu);
       generateRouter(menu);
       router.addRoutes([layout]);

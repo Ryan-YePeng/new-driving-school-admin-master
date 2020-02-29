@@ -50,21 +50,22 @@
 </template>
 
 <script>
-  import {getForeSpeakListApi, deleteForeSpeakByIdApi} from '@/api/school'
+  import {getForeSpeakListApi, deleteForeSpeakByIdApi} from '@/api/coach'
   import Pagination from '@/components/pagination'
 
   export default {
     components: {Pagination},
+    props: {
+      coachId: {
+        type: Number,
+        default: () => 0
+      }
+    },
     data() {
       return {
         isLoading: false,
         isLoadingButton: false,
         foreSpeakList: []
-      }
-    },
-    computed: {
-      schoolId() {
-        return this.$store.getters.schoolId
       }
     },
     mounted() {
@@ -75,7 +76,7 @@
       getForeSpeakList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&coachId=${this.coachId}`;
         getForeSpeakListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.foreSpeakList;

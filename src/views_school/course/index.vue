@@ -92,6 +92,11 @@
   export default {
     name: "SchoolCourse",
     components: {Pagination},
+    computed: {
+      schoolId() {
+        return this.$store.getters.schoolId
+      }
+    },
     data() {
       return {
         title: '',
@@ -124,7 +129,7 @@
       getSchoolCourseList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
         getSchoolCourseListApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolCourseList;
@@ -174,6 +179,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let data = {...this.form_c};
+            data.schoolId = this.schoolId;
             if (this.title === '添加课程') {
               this.form_c_btn = true;
               addSchoolCourseApi(data).then(() => {

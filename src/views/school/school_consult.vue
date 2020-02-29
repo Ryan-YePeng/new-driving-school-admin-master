@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="school-consult">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>驾校咨询列表</span>
@@ -16,29 +16,31 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="realName"
-            label="姓名">
+                  prop="realName"
+                  label="姓名">
           </el-table-column>
           <el-table-column
-            prop="username"
-            label="手机号">
+                  prop="username"
+                  label="手机号">
           </el-table-column>
           <el-table-column
-            prop="question"
-            label="咨询内容"
-            :show-overflow-tooltip="true">
+                  prop="question"
+                  label="咨询内容"
+                  :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="createTime" label="咨询时间" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.createTime | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="200">
+          <el-table-column label="操作" align="center" width="150">
             <template slot-scope="scope">
+<!--              <el-button type="success" @click="getSchoolReply(scope.row)" size="mini">查看回复</el-button>-->
+              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>
               <el-popover
-                :ref="scope.row.schoolConsultId"
-                placement="top"
-                width="180">
+                      :ref="scope.row.schoolConsultId"
+                      placement="top"
+                      width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="$refs[scope.row.schoolConsultId].doClose()">取消</el-button>
@@ -54,11 +56,29 @@
         <pagination ref="pagination" @getNewData="getSchoolConsultList"></pagination>
       </div>
     </el-card>
+    <el-dialog
+            title="回复"
+            width="600px"
+            append-to-body
+            @close="cancel"
+            :close-on-click-modal="false"
+            :visible.sync="dialogTableVisible">
+      <el-form :model="form" :rules="rules" ref="Form" label-width="100px" hide-required-asterisk>
+        <el-form-item label="回复内容" prop="schoolReplyContent">
+          <el-input type="textarea" v-model="form.schoolReplyContent"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm('Form')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import {getSchoolConsultListApi, deleteSchoolConsultApi} from '@/api/school'
+  import {addSchoolReplyApi, getSchoolReplyByConsultIdApi} from '@/api/reply'
   import Pagination from '@/components/pagination'
 
   export default {
@@ -73,7 +93,16 @@
       return {
         isLoading: false,
         isLoadingButton: false,
-        schoolConsultList: []
+        schoolConsultList: [],
+        dialogTableVisible: false,
+        form: {
+          schoolConsultId: 0,
+          schoolReplyContent: ''
+        },
+        rules: {
+          schoolReplyContent: {required: true, message: '请输入回复内容', trigger: 'blur'}
+        },
+        resultObj: {}
       }
     },
     mounted() {
@@ -92,37 +121,78 @@
           pagination.total = response.total
         })
       },
+
+      // 回复
+      addReply(obj) {
+        this.dialogTableVisible = true;
+        this.resultObj = obj
+      },
+
+      // 查看回复
+      getSchoolReply(obj) {
+        getSchoolReplyByConsultIdApi(obj.schoolConsultId).then(result => {
+          console.log(result)
+        })
+      },
+
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let data = {...this.form};
+            data.schoolConsultId = this.resultObj.schoolConsultId;
+            addSchoolReplyApi(data).then(() => {
+              this.cancel()
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+
+      cancel() {
+        this.$refs['Form'].resetFields();
+        this.dialogTableVisible = false;
+        Object.assign(this.$data.form, this.$options.data().form);
+        Object.assign(this.$data.resultObj, this.$options.data().resultObj);
+      },
+
       // 删除咨询
       deleteSchoolConsult(id) {
         this.isLoadingButton = true;
         deleteSchoolConsultApi(id)
-          .then(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose();
-            this.getSchoolConsultList()
-          })
-          .catch(() => {
-            this.isLoadingButton = false;
-            this.$refs[id].doClose()
-          })
+            .then(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose();
+              this.getSchoolConsultList()
+            })
+            .catch(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose()
+            })
       }
     }
   }
 </script>
 
-<style scoped>
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
+<style lang="scss">
+  #school-consult {
+    .el-textarea__inner {
+      min-height: 130px !important;
+    }
 
-  .clearfix:after {
-    clear: both
-  }
+    .clearfix:before,
+    .clearfix:after {
+      display: table;
+      content: "";
+    }
 
-  .box-card {
-    width: 100%;
+    .clearfix:after {
+      clear: both
+    }
+
+    .box-card {
+      width: 100%;
+    }
   }
 </style>
 

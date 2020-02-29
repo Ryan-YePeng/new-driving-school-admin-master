@@ -12,12 +12,12 @@
         <el-form :model="form_i" :rules="form_i_rules" ref="form_i" label-width="120px" hide-required-asterisk>
           <el-form-item label="驾校封面:" prop="headPicture">
             <picture-uploader
-              ref="PictureUploader"
-              :width="'200px'"
-              :height="'150px'"
-              :fixedNumber="[4, 3]"
-              :imageUrl="imageUrl"
-              @getImage="getImageAndUpload"
+                    ref="PictureUploader"
+                    :width="'200px'"
+                    :height="'150px'"
+                    :fixedNumber="[4, 3]"
+                    :imageUrl="imageUrl"
+                    @getImage="getImageAndUpload"
             ></picture-uploader>
           </el-form-item>
           <el-form-item label="驾校全称:" prop="schoolFullName">
@@ -29,19 +29,19 @@
           <el-form-item label="驾校性质:" prop="schoolNature">
             <el-select v-model="form_i.schoolNature" placeholder="请选择驾校性质" size="mini">
               <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.label"
-                :value="item.value">
+                      v-for="item in options"
+                      :key="item.id"
+                      :label="item.label"
+                      :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="驾校位置:">
             <el-cascader
-              size="mini"
-              placeholder="请选择驾校位置位置"
-              :options="optionData"
-              v-model="selectedOptions">
+                    size="mini"
+                    placeholder="请选择驾校位置位置"
+                    :options="optionData"
+                    v-model="selectedOptions">
             </el-cascader>
           </el-form-item>
           <el-form-item label="详细地址:" prop="address">
@@ -66,13 +66,13 @@
       </div>
       <div>
         <el-upload
-          ref="SchoolPicture"
-          :action="baseApi + uploadUrl"
-          :headers=headers
-          accept=".jpg,.png,.gif,.jepg,.jpeg"
-          :on-success="uploadSuccess"
-          list-type="picture-card"
-          :file-list="fileList">
+                ref="SchoolPicture"
+                :action="baseApi + uploadUrl"
+                :headers=headers
+                accept=".jpg,.png,.gif,.jepg,.jpeg"
+                :on-success="uploadSuccess"
+                list-type="picture-card"
+                :file-list="fileList">
           <i class="el-icon-plus"></i>
         </el-upload>
       </div>
@@ -102,7 +102,7 @@
 
 <script>
   import PictureUploader from '@/components/picture-uploader'
-  import {schoolPictureBaseUrl} from "@/utils/path";
+  import {schoolHeadPictureBaseUrl, schoolPictureBaseUrl} from "@/utils/path";
   import {
     getSchoolByUserIdApi,
     updateSchoolApi,
@@ -112,8 +112,10 @@
 
   import {regionData} from 'element-china-area-data'
   import {CodeToText} from 'element-china-area-data'
+  import {TextToCode} from 'element-china-area-data'
 
   import Pagination from '@/components/pagination'
+  import {objectEvaluate} from "@/utils/common";
 
   export default {
     name: "SchoolDetail",
@@ -172,11 +174,6 @@
         flag: true
       }
     },
-    mounted() {
-      getSchoolByUserIdApi().then(result => {
-        console.log(result)
-      })
-    },
     computed: {
       baseApi() {
         return process.env.VUE_APP_BASE_API
@@ -189,13 +186,36 @@
       },
       pictureUrl() {
         return schoolPictureBaseUrl
+      },
+      schoolId() {
+        return this.$store.getters.schoolId
       }
+    },
+    mounted() {
+      getSchoolByUserIdApi().then(result => {
+        let data = result.data.resultParm.school;
+        objectEvaluate(data, this.form_i);
+        this.selectedOptions = [];
+        this.imageUrl = schoolHeadPictureBaseUrl + data.headPicture;
+        if (data.province) this.selectedOptions.push(TextToCode[data.province].code);
+        if (data.city) this.selectedOptions.push(TextToCode[data.province][data.city].code);
+        if (data.area) this.selectedOptions.push(TextToCode[data.province][data.city][data.area].code);
+        /*多张图片*/
+        let list = data.trainingPicture.split(',');
+        this.fileList = [];
+        list.forEach(item => {
+          this.fileList.push({
+            pictureUrl: item,
+            url: this.pictureUrl + item
+          });
+        });
+        /*驾校资讯方式*/
+        objectEvaluate(data, this.form_r);
+      })
     },
     methods: {
       // 上传剪辑后的图片
       getImageAndUpload(name, data, url) { // 文件名 二进制文件 文件本地地址
-        // this.fileName = name;
-        // this.file = data;
         this.imageUrl = url;
         let formData = new FormData();
         formData.append('file', data, name);
@@ -231,6 +251,7 @@
           data.city = CodeToText[this.selectedOptions[1]];
           data.area = CodeToText[this.selectedOptions[2]]
         }
+        data.schoolId = this.schoolId;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.form_i_btn = true;
@@ -243,7 +264,8 @@
             return false;
           }
         });
-      },
+      }
+      ,
 
       // 上传成功
       uploadSuccess(response, file, fileList) {
@@ -253,7 +275,8 @@
           this.$errorMsg('上传失败')
         }
         file.pictureUrl = response.resultParm.message;
-      },
+      }
+      ,
       // 保存多张图片
       submitForm_p() {
         let list = [...this.$refs['SchoolPicture'].uploadFiles];
@@ -267,16 +290,18 @@
           return
         }
         this.form_p_btn = true;
-        updateSchoolApi({trainingPicture: str}).then(() => {
+        updateSchoolApi({trainingPicture: str, schoolId: this.schoolId}).then(() => {
           this.form_p_btn = false;
         }).catch(() => {
           this.form_p_btn = false
         })
-      },
+      }
+      ,
 
       // 保存驾校咨询
       submitForm_r() {
         let data = {...this.form_r};
+        data.schoolId = this.schoolId;
         if (this.form_r.isConsult) {
           this.$refs['form_r'].validate((valid) => {
             if (valid) {
@@ -299,7 +324,8 @@
             this.form_r_btn = false
           })
         }
-      },
+      }
+      ,
 
       // 清空数据
       clearForm() {
@@ -308,7 +334,8 @@
         this.$refs['form_i'].resetFields();
         this.$refs['SchoolPicture'].clearFiles();
         this.activeName = '驾校信息'
-      },
+      }
+      ,
       // 退出
       goBack() {
         this.$msgBox('确认退出？').then(() => {

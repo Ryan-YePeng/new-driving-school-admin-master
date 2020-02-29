@@ -87,6 +87,7 @@ Vue.prototype.$errorNotify = errorNotify;
 Vue.prototype.$infoNotify = infoNotify;
 Vue.prototype.$warnNotify = warnNotify;
 Vue.prototype.$msgBox = msgBox;
+Vue.prototype.$prompt = MessageBox.prompt;
 
 export default {
   successMsg,
