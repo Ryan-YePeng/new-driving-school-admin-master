@@ -7,14 +7,6 @@
       <div>
         <el-input placeholder="搜索驾校名" v-model="schoolFullNameText" clearable style="width: 180px" size="mini"
                   @keyup.enter.native="getSchoolList"></el-input>
-        <el-cascader
-                size="mini"
-                clearable
-                placeholder="搜索位置"
-                :props="{ checkStrictly: true }"
-                :options="options"
-                v-model="selectedOptions">
-        </el-cascader>
         <el-button type="success" class="el-icon-search" size="mini" @click="getSchoolList">搜索</el-button>
         <el-table v-loading="isLoading" :data="schoolData" max-height="100%" style="width: 100%">
           <el-table-column
@@ -72,9 +64,7 @@
 
 <script>
   import {getSchoolListApi} from "@/api/school";
-  import {coachDisRecommendApi} from "@/api/coach";
-  import {regionData} from 'element-china-area-data'
-  import {CodeToText} from 'element-china-area-data'
+  import {schoolDisRecommendApi} from "@/api/school";
   import Pagination from '@/components/pagination'
 
   export default {
@@ -85,49 +75,18 @@
         schoolData: [],
         isLoading: false,
         schoolFullNameText: '',
-        provinceNameText: '',
-        cityNameText: '',
-        areaNameText: '',
-        options: regionData,
-        selectedOptions: [],
-        schoolId: 0,
-        schoolName: ''
+        isLoadingButton: false
       }
     },
     mounted() {
       this.getSchoolList();
-    },
-    watch: {
-      selectedOptions: function (array) {
-        array = array.map(item => {
-          return CodeToText[item]
-        });
-        let length = array.length;
-        if (length === 0) {
-          this.provinceNameText = '';
-          this.cityNameText = '';
-          this.areaNameText = '';
-        } else if (length === 1) {
-          this.provinceNameText = array[0];
-          this.cityNameText = '';
-          this.areaNameText = '';
-        } else if (length === 2) {
-          this.provinceNameText = '';
-          this.cityNameText = array[1];
-          this.areaNameText = '';
-        } else {
-          this.provinceNameText = '';
-          this.cityNameText = '';
-          this.areaNameText = array[2];
-        }
-      }
     },
     methods: {
       // 获取列表
       getSchoolList() {
         this.isLoading = true;
         let pagination = this.$refs['pagination'].pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolFullName=${this.schoolFullNameText}&provinceName=${this.provinceNameText}&cityName=${this.cityNameText}&areaName=${this.areaNameText}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolFullName=${this.schoolFullNameText}&provinceName=&cityName=&areaName=&isRecommend=1`;
         getSchoolListApi(param).then(result => {
           let response = result.data.resultParm.schoolList;
           this.schoolData = response.records;
@@ -138,10 +97,18 @@
         });
       },
       // 取消推荐
-      cancelSchool() {
-        coachDisRecommendApi(id).then(() => {
-          this.getCoachList()
-        })
+      cancelSchool(id) {
+        this.isLoadingButton = true;
+        schoolDisRecommendApi(id)
+            .then(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose();
+              this.getSchoolList()
+            })
+            .catch(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose()
+            })
       }
     }
   }

@@ -3,7 +3,7 @@
     <el-card class="box-card" style="margin: 0 auto">
       <div slot="header" class="clearfix">
         <span>优惠劵列表</span>
-        <el-button style="float: right" type="primary" @click="addPicture">新增</el-button>
+        <el-button style="float: right" type="primary" @click="add">新增</el-button>
       </div>
       <div>
         <el-table :data="formData" max-height="100%" style="width: 100%">
@@ -11,7 +11,7 @@
                   prop="couponContent"
                   label="描述">
           </el-table-column>
-          <el-table-column prop="username" label="优惠卷图片">
+          <el-table-column prop="username" label="优惠卷优惠劵">
             <template slot-scope="scope">
               <el-avatar shape="square" :size="50" :src="baseUrl + scope.row.pictureName">
                 <img src="../../assets/noFoundPicture.png"/>
@@ -37,17 +37,17 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="80">
-            <el-button style="float: right" type="primary" @click="edit" icon="el-icon-edit"></el-button>
+            <el-button style="float: right" type="primary" @click="edit(scope.row)" icon="el-icon-edit"></el-button>
             <template slot-scope="scope">
               <el-popover
-                      :ref="scope.row.pictureId"
+                      :ref="scope.row.couponId"
                       placement="top"
                       width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.pictureId].doClose()">取消</el-button>
+                  <el-button size="mini" type="text" @click="$refs[scope.row.couponId].doClose()">取消</el-button>
                   <el-button :loading="isLoadingButton" type="primary" size="mini"
-                             @click.stop="deletePicture(scope.row.pictureId)">确定
+                             @click.stop="deleteCoupon(scope.row.couponId)">确定
                   </el-button>
                 </div>
                 <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
@@ -64,21 +64,51 @@
             @close="resetUploadForm"
             :close-on-click-modal="false"
             :visible.sync="dialogTableVisible">
-      <el-form label-width="120px">
-
-
-        <el-form-item label="上传图片:">
+      <el-form :model="form" :rules="rules" ref="form" label-width="100px" hide-required-asterisk>
+        <el-form-item label="描述" prop="couponContent">
+          <el-input v-model="form.couponContent"></el-input>
+        </el-form-item>
+        <el-form-item label="优惠劵图片:" prop="couponPicture">
           <el-upload
                   ref="upload"
+                  style="text-align: center"
                   class="carousel-uploader"
                   :action="baseApi+uploadUrl"
-                  accept=".jpg,.png,.gif,.jepg,.jpeg"
+                  accept=".jpg,.png,.jepg,.jpeg"
                   :headers="headers"
                   :show-file-list="false"
                   :on-success="uploadSuccess">
             <img v-if="imageUrl" :src="imageUrl" class="carousel-picture" style="width: 250px; height: auto;">
-            <i v-else class="el-icon-plus" style="font-size: 70px;line-height: 150px"></i>
+            <i v-else class="el-icon-plus" style="font-size: 70px;line-height: 150px;"></i>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="优惠金额:" prop="couponPrice">
+          <el-input-number v-model="form.couponPrice" :min="0.01" :precision="2"
+                           :max="9999.99"></el-input-number>
+        </el-form-item>
+        <el-form-item label="课程名称" prop="schoolCourseId">
+          <el-select v-model="form.schoolCourseId" placeholder="请选择活动区域">
+            <el-option
+                    v-for="item in courseList"
+                    :key="item.schoolCourseId"
+                    :label="item.schoolCourseName"
+                    :value="item.schoolCourseId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="开始时间" prop="beginTime">
+          <el-date-picker
+                  v-model="form.beginTime"
+                  type="datetime"
+                  placeholder="选择日期时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="结束时间" prop="endTime">
+          <el-date-picker
+                  v-model="form.endTime"
+                  type="datetime"
+                  placeholder="选择日期时间">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -100,6 +130,7 @@
   } from "@/api/voucher";
 
   import {voucherPictureBaseUrl} from '@/utils/path'
+  import {formatDateTime, objectEvaluate} from "@/utils/common";
 
   export default {
     name: 'Voucher',
@@ -124,11 +155,19 @@
           couponContent: '',
           couponPicture: '',
           couponPrice: 1,
-          schoolCourseId: '',
-          beginTime: Date,
-          endTime: Date
+          schoolCourseId: null,
+          beginTime: '',
+          endTime: ''
         },
-
+        rules: {
+          couponContent: {required: true, message: ' ', trigger: 'blur'},
+          couponPicture: {required: true, message: '请上传图片', trigger: 'change'},
+          couponPrice: {type: 'number', required: true, message: ' ', trigger: 'change'},
+          schoolCourseId: {type: 'number', required: true, message: ' ', trigger: 'change'},
+          beginTime: {required: true, message: ' ', trigger: 'blur'},
+          endTime: {required: true, message: ' ', trigger: 'blur'},
+        },
+        couponId: 0,
         courseList: [],
 
         isDialogLoading: false,
@@ -154,7 +193,7 @@
       this.getSchoolCourseList();
     },
     methods: {
-      // 获得图片列表
+      // 获得优惠劵列表
       getCouponBySchoolId() {
         getCouponBySchoolIdApi(this.schoolId).then(result => {
           this.formData = result.data.resultParm.couponList
@@ -167,41 +206,61 @@
         })
       },
       // 添加轮播图
-      addPicture() {
-        this.dialogTableVisible = true
+      add() {
+        this.dialogTableVisible = true;
+        this.title = '新增';
       },
-      // 上传图片成功
+      // 上传优惠劵成功
       uploadSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
-        this.pictureName = res.resultParm.message
+        this.form.couponPicture = res.resultParm.message
       },
       // 修改优惠劵
-      edit() {
+      edit(obj) {
+        this.title = '编辑';
+        objectEvaluate(obj, this.form);
+        this.couponId = obj.couponId;
       },
 
       // 提交
       submitForm() {
-        if (!this.pictureName) {
-          this.$warnMsg('请上传图片');
-          return
-        }
-        this.isDialogLoading = true;
-        addPictureApi({pictureName: this.pictureName}).then(() => {
-          this.isDialogLoading = false;
-          this.resetUploadForm();
-          this.getPictureList();
-        }).catch(() => {
-          this.isDialogLoading = false;
-        })
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.isDialogLoading = true;
+            let data = {...this.form};
+            data.beginTime = formatDateTime(data.beginTime);
+            data.endTime = formatDateTime(data.endTime);
+            if (this.title === '新增') {
+              addCouponApi(data).then(() => {
+                this.isDialogLoading = false;
+                this.resetUploadForm();
+                this.getCouponBySchoolId();
+              }).catch(() => {
+                this.isDialogLoading = false;
+              })
+            } else {
+              data.couponId = this.couponId;
+              updateCouponApi(data).then(() => {
+                this.isDialogLoading = false;
+                this.resetUploadForm();
+                this.getCouponBySchoolId();
+              }).catch(() => {
+                this.isDialogLoading = false;
+              })
+            }
+          } else {
+            return false;
+          }
+        });
       },
-      // 删除图片
-      deletePicture(id) {
+      // 删除优惠劵
+      deleteCoupon(id) {
         this.isLoadingButton = true;
-        deletePictureApi(id)
+        deleteCouponApi(id)
             .then(() => {
               this.isLoadingButton = false;
               this.$refs[id].doClose();
-              this.getPictureList()
+              this.getCouponBySchoolId()
             })
             .catch(() => {
               this.isLoadingButton = false;
@@ -211,7 +270,7 @@
       // 重置上传表单
       resetUploadForm() {
         this.dialogTableVisible = false;
-        this.$refs['upload'].clearFiles();
+        this.$refs['form'].clearFiles();
         this.imageUrl = '';
         this.pictureName = ''
       },
@@ -222,6 +281,10 @@
 
 <style lang="scss">
   #voucher {
+    .carousel-uploader {
+      text-align: center !important;
+    }
+
     .clearfix:before,
     .clearfix:after {
       display: table;

@@ -25,6 +25,23 @@
               <el-tag v-if="scope.row.foreSpeakState==false" type="warning">预约中</el-tag>
             </template>
           </el-table-column>
+          <el-table-column label="操作" align="center" width="80">
+            <template slot-scope="scope">
+              <el-popover
+                      :ref="scope.row.foreSpeakId"
+                      placement="top"
+                      width="180">
+                <p>确定删除本条数据吗？</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="mini" type="text" @click="$refs[scope.row.foreSpeakId].doClose()">取消</el-button>
+                  <el-button :loading="isLoadingButton" type="primary" size="mini"
+                             @click.stop="deleteForeSpeak(scope.row.foreSpeakId)">确认
+                  </el-button>
+                </div>
+                <el-button slot="reference" type="danger" size="mini" @click.stop class="el-icon-delete"></el-button>
+              </el-popover>
+            </template>
+          </el-table-column>
         </el-table>
         <pagination ref="pagination" @getNewData="getForeSpeakList"></pagination>
       </div>
@@ -33,7 +50,7 @@
 </template>
 
 <script>
-  import {getForeSpeakListApi} from '@/api/school'
+  import {getForeSpeakListApi, deleteForeSpeakByIdApi} from '@/api/school'
   import Pagination from '@/components/pagination'
 
   export default {
@@ -66,6 +83,21 @@
           this.foreSpeakList = response.records;
           pagination.total = response.total
         })
+      },
+
+      // 删除预约
+      deleteForeSpeak(id) {
+        this.isLoadingButton = true;
+        deleteForeSpeakByIdApi(id)
+            .then(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose();
+              this.getForeSpeakList()
+            })
+            .catch(() => {
+              this.isLoadingButton = false;
+              this.$refs[id].doClose()
+            })
       }
     }
   }

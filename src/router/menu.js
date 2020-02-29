@@ -4,42 +4,30 @@ module.exports = {
    */
   menu_admin: [
     {
-      "id": 1,
       "name": "网站管理",
       "icon": "website",
       "path": "website",
       "component": "website",
       "children": [
         {
-          "id": 1,
           "name": "轮播图管理",
           "icon": "carousel",
           "path": "carousel",
           "component": "carousel"
         },
         {
-          "id": 3,
-          "name": "代金券管理",
-          "icon": "voucher",
-          "path": "voucher",
-          "component": "voucher"
-        },
-        {
-          "id": 4, "name":
-              "位置管理",
+          "name": "位置管理",
           "icon": "location",
           "path": "location",
           "component": "location"
         },
         {
-          "id": 5,
           "name": "推荐驾校管理",
           "icon": "recommendshcool",
           "path": "recommendshcool",
           "component": "recommendshcool"
         },
         {
-          "id": 10,
           "name": "文章管理",
           "icon": "article",
           "path": "article",
@@ -48,7 +36,6 @@ module.exports = {
       ]
     },
     {
-      "id": 2,
       "name": "用户管理",
       "icon": "user",
       "path": "user",
@@ -56,7 +43,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 3,
       "name": "驾校",
       "icon": "school",
       "path": "school",
@@ -64,7 +50,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 4,
       "name": "教练",
       "icon": "coach",
       "path": "coach",
@@ -72,42 +57,30 @@ module.exports = {
       "children": []
     },
     {
-      "id": 5,
       "name": "入驻审核",
       "icon": "audit",
       "path": "audit",
       "component": "audit",
       "children": [
         {
-          "id": 6,
           "name": "驾校入驻审核",
           "icon": "schoolin",
           "path": "schoolin",
           "component": "schoolin"
         },
         {
-          "id": 11,
           "name": "教练入驻审核",
           "icon": "coachin",
           "path": "coachin",
           "component": "coachin"
         },
         {
-          "id": 11,
           "name": "入驻电话管理",
           "icon": "phone",
           "path": "phone",
           "component": "phone"
         }
       ]
-    },
-    {
-      "id": 7,
-      "name": "账号管理",
-      "icon": "account",
-      "path": "account",
-      "component": "account",
-      "children": []
     }
   ],
   /**
@@ -115,7 +88,6 @@ module.exports = {
    */
   menu_school: [
     {
-      "id": 8,
       "name": "驾校信息",
       "icon": "information",
       "path": "information",
@@ -123,7 +95,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 9,
       "name": "驾校课程",
       "icon": "course",
       "path": "course",
@@ -131,7 +102,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 10,
       "name": "学生预约",
       "icon": "appointment",
       "path": "appointment",
@@ -139,7 +109,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 11,
       "name": "驾校评论",
       "icon": "comment",
       "path": "comment",
@@ -147,7 +116,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 12,
       "name": "驾校咨询",
       "icon": "school_consult",
       "path": "school_consult",
@@ -155,7 +123,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 13,
       "name": "教练咨询",
       "icon": "coach_consult",
       "path": "coach_consult",
@@ -163,7 +130,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 14,
       "name": "驾校订单",
       "icon": "order",
       "path": "order",
@@ -171,7 +137,6 @@ module.exports = {
       "children": []
     },
     {
-      "id": 15,
       "name": "驾校代金卷",
       "icon": "voucher",
       "path": "voucher",

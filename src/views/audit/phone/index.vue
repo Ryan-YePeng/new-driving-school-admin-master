@@ -14,14 +14,14 @@
           <el-table-column label="操作" align="center" width="80">
             <template slot-scope="scope">
               <el-popover
-                      :ref="scope.row.phone"
+                      :ref="scope.row.phoneId"
                       placement="top"
                       width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.phone].doClose()">取消</el-button>
+                  <el-button size="mini" type="text" @click="$refs[scope.row.phoneId].doClose()">取消</el-button>
                   <el-button :loading="isLoadingButton" type="primary" size="mini"
-                             @click.stop="deletePhone(scope.row.phone)">确定
+                             @click.stop="deletePhone(scope.row.phoneId)">确定
                   </el-button>
                 </div>
                 <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>

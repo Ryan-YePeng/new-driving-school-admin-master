@@ -162,13 +162,9 @@
           _this.schoolId = data.schoolId;
           objectEvaluate(data, _this.form_i);
           _this.selectedOptions = [];
-          // _this.imageUrl = schoolHeadPictureBaseUrl + data.headPicture;
           if (data.province) _this.selectedOptions.push(TextToCode[data.province].code);
           if (data.city) _this.selectedOptions.push(TextToCode[data.province][data.city].code);
           if (data.area) _this.selectedOptions.push(TextToCode[data.province][data.city][data.area].code);
-
-          /*驾校课程*/
-          _this.getCoachCourseList(data.coachId);
 
           /*驾校咨询*/
           objectEvaluate(data, _this.form_r);

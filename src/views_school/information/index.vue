@@ -1,8 +1,7 @@
 <template>
-  <div id="schoolDetail" style="background-color: white;padding: 10px 20px;border-radius: 5px">
-    <el-page-header @back="goBack" content="驾校列表"></el-page-header>
+  <div id="schoolDetail">
     <!--驾校介绍-->
-    <el-card class="box-card" style="margin-top: 15px">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>驾校介绍</span>
         <el-button :loading="form_i_btn" style="float: right;" type="primary" @click="submitForm_i('form_i')">

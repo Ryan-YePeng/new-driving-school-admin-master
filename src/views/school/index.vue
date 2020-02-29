@@ -168,7 +168,7 @@
         this.flag = 'edit';
         this.isLoading = true;
         let pagination = this.$refs['pagination'].pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolFullName=${this.schoolFullNameText}&provinceName=${this.provinceNameText}&cityName=${this.cityNameText}&areaName=${this.areaNameText}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&schoolFullName=${this.schoolFullNameText}&provinceName=${this.provinceNameText}&cityName=${this.cityNameText}&areaName=${this.areaNameText}&isRecommend=`;
         getSchoolListApi(param).then(result => {
           let response = result.data.resultParm.schoolList;
           this.schoolData = response.records;

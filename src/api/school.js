@@ -166,3 +166,10 @@ const getForeSpeakListUrl = 'school/coach/getForeSpeakList?';
 export function getForeSpeakListApi(data) {
   return axiosG(getForeSpeakListUrl + data)
 }
+
+// 删除预约
+const deleteForeSpeakByIdUrl = 'school/foreSpeak/deleteForeSpeakById?foreSpeakId=';
+
+export function deleteForeSpeakByIdApi(data) {
+  return axiosd(deleteForeSpeakByIdUrl + data)
+}

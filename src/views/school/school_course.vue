@@ -167,7 +167,7 @@
             .then(() => {
               this.isLoadingButton = false;
               this.$refs[id].doClose();
-              this.getSchoolCourseList(this.schoolId)
+              this.getSchoolCourseList()
             })
             .catch(() => {
               this.isLoadingButton = false;
@@ -185,7 +185,7 @@
               this.form_c_btn = true;
               addSchoolCourseApi(data).then(() => {
                 this.form_c_btn = false;
-                this.getSchoolCourseList(this.schoolId);
+                this.getSchoolCourseList();
                 this.cancelCourse()
               }).catch(() => {
                 this.form_c_btn = false;
@@ -194,7 +194,7 @@
               data.schoolCourseId = this.schoolCourseId;
               updateSchoolCourseApi(data).then(() => {
                 this.form_c_btn = false;
-                this.getSchoolCourseList(this.schoolId);
+                this.getSchoolCourseList();
                 this.cancelCourse()
               }).catch(() => {
                 this.form_c_btn = false;
