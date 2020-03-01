@@ -116,13 +116,6 @@ module.exports = {
       "children": []
     },
     {
-      "name": "驾校订单",
-      "icon": "order",
-      "path": "order",
-      "component": "order",
-      "children": []
-    },
-    {
       "name": "驾校代金卷",
       "icon": "voucher",
       "path": "voucher",

@@ -73,43 +73,49 @@ function generateRouter(menu) {
 
 export function getRouter() {
   return new Promise(resolve => {
-    getUserApi().then(result => {
-      let user = result.data.resultParm.user;
-      store.dispatch('setUser', user);
-      let role = user.authorities[0].authority;
-      let menu;
-      if (role === 'ROLE_SCHOOL') {
-        menu = menu_school;
-        get().then(result => {
-          let schoolId = result.data.resultParm.schoolId;
-          store.dispatch('setSchoolId', schoolId)
+    let role;
+    let menu;
+    getUserApi()
+        .then(result => {
+          let user = result.data.resultParm.user;
+          store.dispatch('setUser', user);
+          role = user.authorities[0].authority;
+          if (role === 'ROLE_SCHOOL') {
+            menu = menu_school;
+          } else {
+            menu = menu_admin;
+          }
+          return get();
         })
-      } else {
-        menu = menu_admin;
-      }
-      store.dispatch('setMenu', menu);
-      generateRouter(menu);
-      router.addRoutes([layout]);
-      router.addRoutes([{
-        path: "*",
-        redirect: "/404"
-      }]);
-      router.addRoutes([{
-        path: "",
-        redirect: "/home"
-      }]);
-      resolve()
-    });
+        .then(result => {
+          if (role === 'ROLE_SCHOOL') {
+            let schoolId = result.data.resultParm.schoolId;
+            store.dispatch('setSchoolId', schoolId);
+          }
+          store.dispatch('setMenu', menu);
+          generateRouter(menu);
+          router.addRoutes([layout]);
+          router.addRoutes([{
+            path: "*",
+            redirect: "/404"
+          }]);
+          router.addRoutes([{
+            path: "",
+            redirect: "/home"
+          }]);
+          resolve()
+        })
   });
 }
 
 //添加路由守卫
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  let token = store.getters.token;
-  let isLogin = !isEmpty(token);
+  let isLogin = !isEmpty(store.getters.token);
   if (to.path === "/") {
-    next('/login');
+    isLogin
+        ? next('/home')
+        : next('login');
     return
   }
   if (to.path === "/login") {

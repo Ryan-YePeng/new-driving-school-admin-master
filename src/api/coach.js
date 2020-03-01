@@ -7,6 +7,13 @@ export function getCoachListApi(data) {
   return axiosG(getCoachListUrl + data)
 }
 
+// 通过学校id获得教练列表
+const getCoachBySchoolIdUrl = 'school/coach/getCoachBySchoolId?schoolId=';
+
+export function getCoachBySchoolIdApi(data) {
+  return axiosG(getCoachBySchoolIdUrl + data)
+}
+
 // 删除教练接口
 const deleteCoachUrl = 'school/deleteCoach?coachId=';
 

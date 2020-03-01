@@ -6,13 +6,6 @@
           <span>教练列表</span>
         </div>
         <div>
-          <el-input placeholder="搜索姓名" v-model="searchName" clearable style="width: 180px" size="mini"
-                    @keyup.enter.native="getCoachList"></el-input>
-          <el-input placeholder="搜索手机号" v-model="searchPhone" clearable style="width: 180px" size="mini"
-                    @keyup.enter.native="getCoachList"></el-input>
-          <el-input placeholder="搜索驾校" v-model="searchSchool" clearable style="width: 180px" size="mini"
-                    @keyup.enter.native="getCoachList"></el-input>
-          <el-button type="success" class="el-icon-search" size="mini" @click="getCoachList">搜索</el-button>
           <el-table v-loading="isLoading" :data="coachData" max-height="100%" style="width: 100%">
             <el-table-column
                     prop="realName"
@@ -25,11 +18,6 @@
             <el-table-column
                     prop="username"
                     label="电话">
-            </el-table-column>
-            <el-table-column
-                    prop="schoolFullName"
-                    :show-overflow-tooltip="true"
-                    label="所属驾校">
             </el-table-column>
             <el-table-column label="操作" align="center" width="180">
               <template slot-scope="scope">
@@ -50,7 +38,6 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination ref="pagination" @getNewData="getCoachList"></pagination>
         </div>
       </el-card>
     </div>
@@ -64,17 +51,16 @@
   import CoachDetail from './detail'
 
   import {
-    getCoachListApi,
+    getCoachBySchoolIdApi,
     deleteCoachApi
   } from "@/api/coach";
 
-  import Pagination from '@/components/pagination'
   import {objectEvaluate} from "@/utils/common";
 
   import {TextToCode} from 'element-china-area-data'
 
   export default {
-    components: {Pagination, CoachDetail},
+    components: {CoachDetail},
     data() {
       return {
         flag: '',
@@ -91,6 +77,11 @@
         searchSchool: ''
       }
     },
+    computed: {
+      schoolId() {
+        return this.$store.getters.schoolId
+      }
+    },
     mounted() {
       this.getCoachList();
     },
@@ -103,12 +94,8 @@
       getCoachList() {
         this.flag = 'edit';
         this.isLoading = true;
-        let pagination = this.$refs['pagination'].pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&realName=${this.searchName}&username=${this.searchPhone}&schoolFullName=${this.searchSchool}`;
-        getCoachListApi(param).then(result => {
-          let response = result.data.resultParm.coachList;
-          this.coachData = response.records;
-          pagination.total = response.total;
+        getCoachBySchoolIdApi(this.schoolId).then(result => {
+          this.coachData = result.data.resultParm.coachList;
           this.isLoading = false
         }).catch(() => {
           this.isLoading = false
