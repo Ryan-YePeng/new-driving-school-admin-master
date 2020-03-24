@@ -39,24 +39,24 @@
         </el-card>
 
         <!--教练咨询-->
-        <el-card class="box-card" style="margin-top: 20px">
-          <div slot="header" class="clearfix">
-            <span>教练咨询</span>
-            <el-button :loading="form_r_btn" style="float: right;" type="primary" @click="submitForm_r()">保存
-            </el-button>
-          </div>
-          <div>
-            <el-form :model="form_r" label-width="120px">
-              <el-form-item label="咨询方式:" prop="articleTitle">
-                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>
-                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>
-              </el-form-item>
-              <el-form-item v-if="form_r.isConsult" label="跳转链接:">
-                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
+<!--        <el-card class="box-card" style="margin-top: 20px">-->
+<!--          <div slot="header" class="clearfix">-->
+<!--            <span>教练咨询</span>-->
+<!--            <el-button :loading="form_r_btn" style="float: right;" type="primary" @click="submitForm_r()">保存-->
+<!--            </el-button>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <el-form :model="form_r" label-width="120px">-->
+<!--              <el-form-item label="咨询方式:" prop="articleTitle">-->
+<!--                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>-->
+<!--                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item v-if="form_r.isConsult" label="跳转链接:">-->
+<!--                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-form>-->
+<!--          </div>-->
+<!--        </el-card>-->
       </el-tab-pane>
       <el-tab-pane label="教练课程" name="CoachCourse">
         <coach-course v-if="activeName === 'CoachCourse'" :coachId="coachId" :schoolId="schoolId"></coach-course>

@@ -82,27 +82,27 @@
         </el-card>
 
         <!--驾校咨询-->
-        <el-card class="box-card" style="margin-top: 20px">
-          <div slot="header" class="clearfix">
-            <span>驾校咨询</span>
-            <el-button :loading="form_r_btn" style="float: right;" type="primary" @click="submitForm_r()">保存
-            </el-button>
-          </div>
-          <div>
-            <el-form :model="form_r" label-width="120px" :rules="form_r_rules" ref="form_r" hide-required-asterisk>
-              <el-form-item label="咨询方式:" prop="articleTitle">
-                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>
-                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>
-              </el-form-item>
-              <el-form-item v-if="form_r.isConsult" label="跳转链接:" prop="consultLink">
-                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
+<!--        <el-card class="box-card" style="margin-top: 20px">-->
+<!--          <div slot="header" class="clearfix">-->
+<!--            <span>报名咨询</span>-->
+<!--            <el-button :loading="form_r_btn" style="float: right;" type="primary" @click="submitForm_r()">保存-->
+<!--            </el-button>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <el-form :model="form_r" label-width="120px" :rules="form_r_rules" ref="form_r" hide-required-asterisk>-->
+<!--              <el-form-item label="咨询方式:" prop="articleTitle">-->
+<!--                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>-->
+<!--                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item v-if="form_r.isConsult" label="跳转链接:" prop="consultLink">-->
+<!--                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-form>-->
+<!--          </div>-->
+<!--        </el-card>-->
       </el-tab-pane>
 
-      <el-tab-pane label="驾校咨询" name="SchoolConsult">
+      <el-tab-pane label="报名咨询" name="SchoolConsult">
         <school-consult v-if="activeName==='SchoolConsult'" :schoolId="schoolId"></school-consult>
       </el-tab-pane>
       <el-tab-pane label="驾校评论" name="SchoolComment">
@@ -114,9 +114,9 @@
       <el-tab-pane label="学校课程" name="SchoolCourse">
         <school-course v-if="activeName==='SchoolCourse'" :schoolId="schoolId"></school-course>
       </el-tab-pane>
-      <el-tab-pane label="课程优惠卷" name="Voucher">
-        <voucher v-if="activeName==='Voucher'" :schoolId="schoolId"></voucher>
-      </el-tab-pane>
+      <!--      <el-tab-pane label="课程优惠卷" name="Voucher">-->
+      <!--        <voucher v-if="activeName==='Voucher'" :schoolId="schoolId"></voucher>-->
+      <!--      </el-tab-pane>-->
       <el-tab-pane label="教练咨询" name="CoachConsult">
         <coach-consult v-if="activeName==='CoachConsult'" :schoolId="schoolId"></coach-consult>
       </el-tab-pane>
@@ -131,22 +131,15 @@
   import PictureUploader from '@/components/picture-uploader'
   import {schoolPictureBaseUrl} from "@/utils/path";
   import {
-    getDrivingTypeListApi,
-    getSchoolCourseListApi,
     updateSchoolApi,
     uploadHeadPictureApi,
-    uploadSchoolPicturesUrl,
-    addSchoolCourseApi,
-    updateSchoolCourseApi,
-    deleteSchoolCourseApi,
-
+    uploadSchoolPicturesUrl
   } from "@/api/school";
 
   import {regionData} from 'element-china-area-data'
   import {CodeToText} from 'element-china-area-data'
 
   import Pagination from '@/components/pagination'
-  import {objectEvaluate} from "@/utils/common";
 
   import SchoolConsult from './school_consult'
   import CoachConsult from './coach_consult'

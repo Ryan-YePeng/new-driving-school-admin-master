@@ -39,29 +39,29 @@
               </el-form-item>
               <el-form-item label="教练位置:">
                 <el-cascader
-                  size="mini"
-                  style="width: 270px"
-                  placeholder="请选择教练位置"
-                  :options="optionData"
-                  v-model="selectedOptions">
+                        size="mini"
+                        style="width: 270px"
+                        placeholder="请选择教练位置"
+                        :options="optionData"
+                        v-model="selectedOptions">
                 </el-cascader>
               </el-form-item>
               <el-form-item label="教练所属驾校" prop="schoolId">
                 <el-select
-                  v-model="form.schoolId"
-                  @blur="schoolNameSelected"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入所属驾校"
-                  :remote-method="remoteMethod"
-                  :loading="searchLoading">
+                        v-model="form.schoolId"
+                        @blur="schoolNameSelected"
+                        filterable
+                        remote
+                        reserve-keyword
+                        placeholder="请输入所属驾校"
+                        :remote-method="remoteMethod"
+                        :loading="searchLoading">
                   <el-option
-                    v-for="item in schoolNameOptions"
-                    style="width: 300px"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                          v-for="item in schoolNameOptions"
+                          style="width: 300px"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
                   >
                     <span style="float: left">{{ item.label }}</span>
                     <span style="float: right; color: #8492a6; font-size: 13px">{{ item.area }}</span>
@@ -76,22 +76,22 @@
         </el-card>
 
         <!--教练咨询-->
-        <el-card class="box-card" style="margin-top: 20px">
-          <div slot="header" class="clearfix">
-            <span>教练咨询</span>
-          </div>
-          <div>
-            <el-form :model="form" :rules="rules" label-width="120px">
-              <el-form-item label="咨询方式:" prop="articleTitle">
-                <el-radio v-model="form.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>
-                <el-radio v-model="form.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>
-              </el-form-item>
-              <el-form-item v-if="form.isConsult" label="跳转链接:">
-                <el-input v-model="form.consultLink" placeholder="请输入跳转链接"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
+        <!--        <el-card class="box-card" style="margin-top: 20px">-->
+        <!--          <div slot="header" class="clearfix">-->
+        <!--            <span>教练咨询</span>-->
+        <!--          </div>-->
+        <!--          <div>-->
+        <!--            <el-form :model="form" :rules="rules" label-width="120px">-->
+        <!--              <el-form-item label="咨询方式:" prop="articleTitle">-->
+        <!--                <el-radio v-model="form.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>-->
+        <!--                <el-radio v-model="form.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>-->
+        <!--              </el-form-item>-->
+        <!--              <el-form-item v-if="form.isConsult" label="跳转链接:">-->
+        <!--                <el-input v-model="form.consultLink" placeholder="请输入跳转链接"></el-input>-->
+        <!--              </el-form-item>-->
+        <!--            </el-form>-->
+        <!--          </div>-->
+        <!--        </el-card>-->
       </div>
     </el-card>
   </div>

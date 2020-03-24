@@ -32,6 +32,12 @@ module.exports = {
           "icon": "article",
           "path": "article",
           "component": "article"
+        },
+        {
+          "name": "优惠劵管理",
+          "icon": "voucher",
+          "path": "voucher",
+          "component": "voucher"
         }
       ]
     },
@@ -109,19 +115,19 @@ module.exports = {
       "children": []
     },
     {
-      "name": "驾校咨询",
+      "name": "报名咨询",
       "icon": "school_consult",
       "path": "school_consult",
       "component": "school_consult",
       "children": []
     },
-    {
-      "name": "驾校代金卷",
-      "icon": "voucher",
-      "path": "voucher",
-      "component": "voucher",
-      "children": []
-    },
+    // {
+    //   "name": "驾校代金卷",
+    //   "icon": "voucher",
+    //   "path": "voucher",
+    //   "component": "voucher",
+    //   "children": []
+    // },
     {
       "name": "学生预约",
       "icon": "appointment",

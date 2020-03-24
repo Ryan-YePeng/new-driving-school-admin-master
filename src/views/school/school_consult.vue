@@ -2,7 +2,7 @@
   <div id="school-consult">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>驾校咨询列表</span>
+        <span>报名咨询列表</span>
       </div>
       <div>
         <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">

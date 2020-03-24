@@ -79,13 +79,13 @@ module.exports = {
   devServer: {
     open: process.platform === "darwin",
     host: "0.0.0.0",
-    port: 8080,
+    port: 8081,
     https: false,
     hotOnly: false,
     proxy: {
       "/api": {
         // 目标:指向网络地址
-        target: "http://123.57.232.1:8080",
+        target: "http://192.168.0.152:8080",
         // webpack属性，映射一个host
         changeOrigin: true,
         pathRewrite: {

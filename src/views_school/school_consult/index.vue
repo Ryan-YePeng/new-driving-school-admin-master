@@ -2,7 +2,7 @@
   <div id="school-consult">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>驾校咨询列表</span>
+        <span>报名咨询列表</span>
       </div>
       <div>
         <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">
@@ -33,10 +33,10 @@
               <span>{{ scope.row.createTime | formatDateTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="150">
+          <el-table-column label="操作" align="center" width="100">
             <template slot-scope="scope">
               <!--              <el-button type="success" @click="getSchoolReply(scope.row)" size="mini">查看回复</el-button>-->
-              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>
+<!--              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>-->
               <el-popover
                       :ref="scope.row.schoolConsultId"
                       placement="top"

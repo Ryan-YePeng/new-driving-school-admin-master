@@ -99,22 +99,22 @@
         </el-card>
 
         <!--驾校咨询-->
-        <el-card class="box-card" style="margin-top: 20px">
-          <div slot="header" class="clearfix">
-            <span>驾校咨询</span>
-          </div>
-          <div>
-            <el-form :model="form_r" label-width="120px" :rules="form_r_rules" ref="form_r">
-              <el-form-item label="咨询方式:">
-                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>
-                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>
-              </el-form-item>
-              <el-form-item v-if="form_r.isConsult" label="跳转链接:" prop="consultLink">
-                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
+<!--        <el-card class="box-card" style="margin-top: 20px">-->
+<!--          <div slot="header" class="clearfix">-->
+<!--            <span>报名咨询</span>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <el-form :model="form_r" label-width="120px" :rules="form_r_rules" ref="form_r">-->
+<!--              <el-form-item label="咨询方式:">-->
+<!--                <el-radio v-model="form_r.isConsult" :label="!flag">点击立即咨询跳转表单</el-radio>-->
+<!--                <el-radio v-model="form_r.isConsult" :label="flag">点击立即咨询跳转链接</el-radio>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item v-if="form_r.isConsult" label="跳转链接:" prop="consultLink">-->
+<!--                <el-input v-model="form_r.consultLink" placeholder="请输入跳转链接"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-form>-->
+<!--          </div>-->
+<!--        </el-card>-->
       </div>
     </el-card>
 
