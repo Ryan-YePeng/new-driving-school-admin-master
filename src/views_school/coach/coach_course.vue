@@ -1,7 +1,7 @@
 <template>
   <div id="coach-course">
     <!--驾校课程-->
-    <el-card class="box-card" style="margin-top: 20px">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>教练课程</span>
         <el-button style="float: right;" type="primary" @click="addCoachCourse()">
@@ -137,7 +137,7 @@
           pagination.total = response.total;
         })
       },
-      
+
       // 新增教练课程
       addCoachCourse() {
         this.form_c.coachId = this.coachId;

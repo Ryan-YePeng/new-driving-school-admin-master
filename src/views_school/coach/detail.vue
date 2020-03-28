@@ -67,9 +67,9 @@
       <el-tab-pane label="教练咨询" name="CoachConsult">
         <coach-consult v-if="activeName === 'CoachConsult'" :coachId="coachId"></coach-consult>
       </el-tab-pane>
-      <el-tab-pane label="学生预约" name="Appointment">
-        <appointment v-if="activeName === 'Appointment'" :coachId="coachId"></appointment>
-      </el-tab-pane>
+<!--      <el-tab-pane label="学生预约" name="Appointment">-->
+<!--        <appointment v-if="activeName === 'Appointment'" :coachId="coachId"></appointment>-->
+<!--      </el-tab-pane>-->
     </el-tabs>
   </div>
 </template>

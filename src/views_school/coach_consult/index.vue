@@ -9,7 +9,7 @@
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="咨询内容：">
+                <el-form-item label="地区：">
                   <span>{{ props.row.question }}</span>
                 </el-form-item>
               </el-form>
@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column
                   prop="question"
-                  label="咨询内容"
+                  label="地区"
                   :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="createTime" label="咨询时间" :show-overflow-tooltip="true">

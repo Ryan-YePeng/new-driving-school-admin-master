@@ -34,10 +34,25 @@ module.exports = {
           "component": "article"
         },
         {
-          "name": "优惠劵管理",
+          "name": "优惠劵报名",
           "icon": "voucher",
           "path": "voucher",
           "component": "voucher"
+        }
+      ]
+    },
+    {
+      "name": "表单管理",
+      "icon": "form",
+      "path": "form",
+      "component": "form",
+      "children": [
+        {
+          "name": "报名咨询",
+          "icon": "school_consult",
+          "path": "consult",
+          "component": "consult",
+          "children": []
         }
       ]
     },
@@ -128,13 +143,13 @@ module.exports = {
     //   "component": "voucher",
     //   "children": []
     // },
-    {
-      "name": "学生预约",
-      "icon": "appointment",
-      "path": "appointment",
-      "component": "appointment",
-      "children": []
-    },
+    // {
+    //   "name": "学生预约",
+    //   "icon": "appointment",
+    //   "path": "appointment",
+    //   "component": "appointment",
+    //   "children": []
+    // },
     {
       "name": "教练管理",
       "icon": "coach",

@@ -109,6 +109,12 @@ export function schoolDisRecommendApi(data) {
 /**
  * @module 咨询
  * */
+// 获得所有驾校咨询
+const getAllSchoolConsultUrl = 'admin/getAllSchoolConsult';
+
+export function getAllSchoolConsultApi() {
+  return axiosG(getAllSchoolConsultUrl)
+}
 
 // 通过学校id获得驾校咨询列表
 const getSchoolConsultListUrl = 'school/getSchoolConsultList?';

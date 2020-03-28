@@ -3,7 +3,7 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>驾校订单</span>
-        <el-select style="float: right" v-model="orderState" placeholder="搜索文章类型" clearable size="mini"
+        <el-select style="float: right" v-model="orderState" placeholder="搜索支付状态" clearable size="mini"
                    @change="getOrderList">
           <el-option label="支付成功" value="1"></el-option>
           <el-option label="支付中" value="2"></el-option>

@@ -6,15 +6,15 @@
       </div>
       <div>
         <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="咨询内容：">
-                  <span>{{ props.row.question }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
+          <!--          <el-table-column type="expand">-->
+          <!--            <template slot-scope="props">-->
+          <!--              <el-form label-position="left" inline class="demo-table-expand">-->
+          <!--                <el-form-item label="咨询内容：">-->
+          <!--                  <span>{{ props.row.question }}</span>-->
+          <!--                </el-form-item>-->
+          <!--              </el-form>-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
           <el-table-column
                   prop="realName"
                   label="姓名">
@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column
                   prop="question"
-                  label="咨询内容"
+                  label="地区"
                   :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="createTime" label="咨询时间" :show-overflow-tooltip="true">
@@ -35,8 +35,8 @@
           </el-table-column>
           <el-table-column label="操作" align="center" width="150">
             <template slot-scope="scope">
-<!--              <el-button type="success" @click="getSchoolReply(scope.row)" size="mini">查看回复</el-button>-->
-              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>
+              <!--              <el-button type="success" @click="getSchoolReply(scope.row)" size="mini">查看回复</el-button>-->
+              <!--              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>-->
               <el-popover
                       :ref="scope.row.schoolConsultId"
                       placement="top"

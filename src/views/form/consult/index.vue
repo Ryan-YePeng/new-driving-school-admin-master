@@ -1,20 +1,11 @@
 <template>
-  <div id="coach-consult">
+  <div id="school-consult">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>教练咨询列表</span>
+        <span>报名咨询列表</span>
       </div>
       <div>
-        <el-table v-loading="isLoading" :data="coachConsultList" max-height="100%" style="width: 100%">
-          <!--          <el-table-column type="expand">-->
-          <!--            <template slot-scope="props">-->
-          <!--              <el-form label-position="left" inline class="demo-table-expand">-->
-          <!--                <el-form-item label="地区：">-->
-          <!--                  <span>{{ props.row.question }}</span>-->
-          <!--                </el-form-item>-->
-          <!--              </el-form>-->
-          <!--            </template>-->
-          <!--          </el-table-column>-->
+        <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">
           <el-table-column
                   prop="realName"
                   label="姓名">
@@ -35,16 +26,15 @@
           </el-table-column>
           <el-table-column label="操作" align="center" width="150">
             <template slot-scope="scope">
-              <!--              <el-button type="primary" @click="addReply(scope.row)" size="mini">回复</el-button>-->
               <el-popover
-                      :ref="scope.row.coachConsultId"
+                      :ref="scope.row.schoolConsultId"
                       placement="top"
                       width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.coachConsultId].doClose()">取消</el-button>
+                  <el-button size="mini" type="text" @click="$refs[scope.row.schoolConsultId].doClose()">取消</el-button>
                   <el-button :loading="isLoadingButton" type="primary" size="mini"
-                             @click.stop="deleteCoachConsult(scope.row.coachConsultId)">确定
+                             @click.stop="deleteSchoolConsult(scope.row.schoolConsultId)">确定
                   </el-button>
                 </div>
                 <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
@@ -52,7 +42,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <pagination ref="pagination" @getNewData="getCoachConsultList"></pagination>
+        <pagination ref="pagination" @getNewData="getSchoolConsultList"></pagination>
       </div>
     </el-card>
     <el-dialog
@@ -63,8 +53,8 @@
             :close-on-click-modal="false"
             :visible.sync="dialogTableVisible">
       <el-form :model="form" :rules="rules" ref="Form" label-width="100px" hide-required-asterisk>
-        <el-form-item label="回复内容" prop="coachReplyContent">
-          <el-input type="textarea" v-model="form.coachReplyContent"></el-input>
+        <el-form-item label="回复内容" prop="schoolReplyContent">
+          <el-input type="textarea" v-model="form.schoolReplyContent"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -76,8 +66,7 @@
 </template>
 
 <script>
-  import {getCoachConsultListApi, deleteCoachConsultApi} from '@/api/school'
-  import {getCoachReplyByConsultIdApi, addCoachReplyApi} from '@/api/reply'
+  import {getAllSchoolConsultApi, deleteSchoolConsultApi} from '@/api/school'
   import Pagination from '@/components/pagination'
 
   export default {
@@ -92,45 +81,32 @@
       return {
         isLoading: false,
         isLoadingButton: false,
-        coachConsultList: [],
+        schoolConsultList: [],
         dialogTableVisible: false,
         form: {
-          coachConsultId: 0,
-          coachReplyContent: ''
+          schoolConsultId: 0,
+          schoolReplyContent: ''
         },
         rules: {
-          coachReplyContent: {required: true, message: '请输入回复内容', trigger: 'blur'}
+          schoolReplyContent: {required: true, message: '请输入回复内容', trigger: 'blur'}
         },
         resultObj: {}
       }
     },
     mounted() {
-      this.getCoachConsultList()
+      this.getSchoolConsultList()
     },
     methods: {
       // 获得咨询
-      getCoachConsultList() {
+      getSchoolConsultList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}&schoolId=${this.schoolId}`;
-        getCoachConsultListApi(param).then(result => {
+        let param = `current=${pagination.current}&size=${pagination.size}`;
+        getAllSchoolConsultApi(param).then(result => {
           this.isLoading = false;
-          let response = result.data.resultParm.coachConsultList;
-          this.coachConsultList = response.records;
+          let response = result.data.resultParm.schoolConsultList;
+          this.schoolConsultList = response.records;
           pagination.total = response.total
-        })
-      },
-
-      // 回复
-      addReply(obj) {
-        this.dialogTableVisible = true;
-        this.resultObj = obj
-      },
-
-      // 查看回复
-      getCoachReply(obj) {
-        getCoachReplyByConsultIdApi(obj.coachConsultId).then(result => {
-          console.log(result)
         })
       },
 
@@ -138,8 +114,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let data = {...this.form};
-            data.coachConsultId = this.resultObj.coachConsultId;
-            addCoachReplyApi(data).then(() => {
+            data.schoolConsultId = this.resultObj.schoolConsultId;
+            addSchoolReplyApi(data).then(() => {
               this.cancel()
             })
           } else {
@@ -156,13 +132,13 @@
       },
 
       // 删除咨询
-      deleteCoachConsult(id) {
+      deleteSchoolConsult(id) {
         this.isLoadingButton = true;
-        deleteCoachConsultApi(id)
+        deleteSchoolConsultApi(id)
             .then(() => {
               this.isLoadingButton = false;
               this.$refs[id].doClose();
-              this.getCoachConsultList()
+              this.getSchoolConsultList()
             })
             .catch(() => {
               this.isLoadingButton = false;
@@ -174,9 +150,9 @@
 </script>
 
 <style lang="scss">
-  #coach-consult {
+  #school-consult {
     .el-textarea__inner {
-      min-height: 150px !important;
+      min-height: 130px !important;
     }
 
     .clearfix:before,

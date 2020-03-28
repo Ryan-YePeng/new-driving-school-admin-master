@@ -6,12 +6,12 @@
     <div>
       <el-table v-loading="isLoading" :data="userList" max-height="100%" style="width: 100%">
         <el-table-column
-                prop="name"
-                label="姓名">
+                prop="username"
+                label="联系方式">
         </el-table-column>
         <el-table-column
-                prop="phone"
-                label="手机号">
+                prop="name"
+                label="地区">
         </el-table-column>
         <el-table-column prop="createTime" label="填表时间" :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -21,14 +21,14 @@
         <el-table-column label="操作" align="center" width="150">
           <template slot-scope="scope">
             <el-popover
-                    :ref="scope.row.userId"
+                    :ref="scope.row.couponUserId"
                     placement="top"
                     width="180">
               <p>确定删除本条数据吗？</p>
               <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="$refs[scope.row.userId].doClose()">取消</el-button>
+                <el-button size="mini" type="text" @click="$refs[scope.row.couponUserId].doClose()">取消</el-button>
                 <el-button :loading="isLoadingButton" type="primary" size="mini"
-                           @click.stop="deleteUser(scope.row.userId)">确定
+                           @click.stop="deleteUser(scope.row.couponUserId)">确定
                 </el-button>
               </div>
               <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
@@ -39,7 +39,7 @@
       <pagination ref="pagination" @getNewData="getUserList"></pagination>
     </div>
   </el-card>
-<!--  <div id="voucher-user-list">-->
+  <!--  <div id="voucher-user-list">-->
   <!--  </div>-->
 </template>
 
@@ -69,7 +69,7 @@
         let param = `current=${pagination.current}&size=${pagination.size}`;
         getCouponUserListApi(param).then(result => {
           this.isLoading = false;
-          let response = result.data.resultParm.couponUserList.records;
+          let response = result.data.resultParm.couponUserList;
           this.userList = response.records;
           pagination.total = response.total
         })

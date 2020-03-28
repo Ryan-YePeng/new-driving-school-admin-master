@@ -20,22 +20,22 @@ module.exports = {
     const plugins = [];
     if (process.env.NODE_ENV === "production" && isOpenGzip) {
       plugins.push(
-        new CompressionWebpackPlugin({
-          filename: "[path].gz[query]",
-          algorithm: "gzip",
-          test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
-          threshold: 10240, // 对超过10k的数据压缩
-          minRatio: 0.8,
-          deleteOriginalAssets: true // 删除源文件
-        })
+          new CompressionWebpackPlugin({
+            filename: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
+            threshold: 10240, // 对超过10k的数据压缩
+            minRatio: 0.8,
+            deleteOriginalAssets: true // 删除源文件
+          })
       );
     }
     plugins.push(
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "windows.jQuery": "jquery"
-      })
+        new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery",
+          "windows.jQuery": "jquery"
+        })
     );
     config.plugins = [...config.plugins, ...plugins];
   },
@@ -47,20 +47,20 @@ module.exports = {
 
     // set svg-sprite-loader
     config.module
-      .rule("svg")
-      .exclude.add(resolve("src/assets/icons"))
-      .end();
+        .rule("svg")
+        .exclude.add(resolve("src/assets/icons"))
+        .end();
     config.module
-      .rule("icons")
-      .test(/\.svg$/)
-      .include.add(resolve("src/assets/icons"))
-      .end()
-      .use("svg-sprite-loader")
-      .loader("svg-sprite-loader")
-      .options({
-        symbolId: "icon-[name]"
-      })
-      .end();
+        .rule("icons")
+        .test(/\.svg$/)
+        .include.add(resolve("src/assets/icons"))
+        .end()
+        .use("svg-sprite-loader")
+        .loader("svg-sprite-loader")
+        .options({
+          symbolId: "icon-[name]"
+        })
+        .end();
   },
   // css相关配置
   css: {
@@ -85,7 +85,7 @@ module.exports = {
     proxy: {
       "/api": {
         // 目标:指向网络地址
-        target: "http://192.168.0.152:8080",
+        target: "http://123.57.232.1:8080",
         // webpack属性，映射一个host
         changeOrigin: true,
         pathRewrite: {
