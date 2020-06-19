@@ -1,4 +1,4 @@
-import {axiosG} from '@/utils/request'
+import {axiosG} from './axios'
 
 /**
  * @module 驾校审核

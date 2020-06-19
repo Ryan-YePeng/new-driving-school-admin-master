@@ -40,7 +40,7 @@
           <Tag @reload="reloadRouter"></Tag>
         </div>
         <el-main class="top" id="top" style="overflow-x: hidden">
-          <transition name="xz-animation">
+          <transition name="Ryan-animation" mode="out-in">
             <router-view v-if="isRouterAlive"></router-view>
           </transition>
         </el-main>
@@ -244,21 +244,19 @@
       bottom: 3px;
     }
 
-    .xz-animation-enter-active {
-      transition: all .5s .6s;
+    .Ryan-animation-enter-active {
+      transition: all .3s;
     }
 
-    .xz-animation-leave-active {
-      transition: all .5s;
+    .Ryan-animation-leave-active {
+      transition: all .3s;
     }
 
-    .xz-animation-enter {
-      transform: translateX(-30px);
+    .Ryan-animation-enter {
       opacity: 0;
     }
 
-    .xz-animation-leave-to {
-      transform: translateX(30px);
+    .Ryan-animation-leave-to {
       opacity: 0;
     }
   }

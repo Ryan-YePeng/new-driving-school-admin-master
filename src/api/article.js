@@ -1,4 +1,4 @@
-import {axiosG, axiosK, axiosd, axiosFs, axiosF} from '@/utils/request'
+import {axiosG, axiosK, axiosd, axiosFs, axiosF} from './axios'
 
 /**
  * @description 文章

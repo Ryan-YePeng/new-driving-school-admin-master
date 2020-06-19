@@ -1,4 +1,4 @@
-import {axiosG, axiosK} from '@/utils/request'
+import {axiosG, axiosK} from './axios'
 
 /**
  * @module 回复

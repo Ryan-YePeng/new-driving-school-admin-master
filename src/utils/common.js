@@ -1,3 +1,5 @@
+const formatTime = require('silly-datetime');
+
 /**
  * @param {String} value
  * @return {Boolean}
@@ -11,29 +13,29 @@ export const isEmpty = value => {
       (typeof value === "string" && value.trim().length === 0)
   )
 };
+
 /**
- * @param {String} value
+ * @param {String} time
+ * @param {String} formatStr
  * @return {String}
  * @description 格式化时间
  * */
-export const formatDate = value => {
-  let date = new Date(value);
-  let year = date.getFullYear();
-  let month = (date.getMonth() + 1).toString().padStart(2, '0');
-  let day = (date.getDate()).toString().padStart(2, '0');
-  return `${year}-${month}-${day}`
+export const formatDate = (time, formatStr = 'YYYY-MM-DD') => {
+  if (!time) return '';
+  return formatTime.format(time, formatStr);
 };
 
-export const formatDateTime = value => {
-  let date = new Date(value);
-  let year = date.getFullYear();
-  let month = (date.getMonth() + 1).toString().padStart(2, '0');
-  let day = (date.getDate()).toString().padStart(2, '0');
-  let hours = (date.getHours()).toString().padStart(2, '0');
-  let minutes = (date.getMinutes()).toString().padStart(2, '0');
-  let seconds = (date.getSeconds()).toString().padStart(2, '0');
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+/**
+ * @param {String} time
+ * @param {String} formatStr
+ * @return {String}
+ * @description 格式化时间
+ * */
+export const formatDateTime = (time, formatStr = 'YYYY-MM-DD HH:mm:ss') => {
+  if (!time) return '';
+  return formatTime.format(time, formatStr);
 };
+
 /**
  * @param {Object} data
  * @param {Object} value

@@ -1,4 +1,4 @@
-import {axiosG, axiosK} from '@/utils/request'
+import {axiosG, axiosK} from './axios'
 
 const getUserListUrl = 'admin/getUserList?'; // 搜索用户列表
 const updateUserUrl = 'school/updateUser'; // 编辑用户

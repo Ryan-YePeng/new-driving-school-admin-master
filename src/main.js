@@ -21,10 +21,6 @@ import EVueContextmenu from 'e-vue-contextmenu'
 import './utils/EUI';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-// 阻止事件的默认行为
-import 'default-passive-events'
-// 组件传值
-import './utils/vueEvent'
 // App
 import App from './App'
 

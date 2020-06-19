@@ -1,4 +1,4 @@
-import {axiosd, axiosG, axiosK} from '@/utils/request'
+import {axiosd, axiosG, axiosK} from './axios'
 
 /**
  * @module 添加

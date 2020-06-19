@@ -1,4 +1,4 @@
-import {axiosG, axiosK} from '@/utils/request'
+import {axiosG, axiosK} from './axios'
 
 const getUserUrl = 'school/getUser'; // 获得个人信息
 const updatePasswordUrl = 'school/updateAdminPassword'; // 修改密码

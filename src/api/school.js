@@ -1,4 +1,4 @@
-import {axiosd, axiosF, axiosG, axiosK} from "@/utils/request";
+import {axiosd, axiosF, axiosG, axiosK} from "./axios";
 
 /**
  * @module 驾校

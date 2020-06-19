@@ -1,4 +1,4 @@
-import {axiosK} from '@/utils/request'
+import {axiosK} from './axios'
 
 const loginUrl = 'common/login'; // 登陆
 
