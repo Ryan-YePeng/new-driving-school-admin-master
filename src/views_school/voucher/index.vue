@@ -113,7 +113,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form')" :isloading="isDialogLoading">确 定</el-button>
+        <el-button type="primary" @click="submitForm('form')" :loading="isDialogLoading">确 定</el-button>
       </div>
     </el-dialog>
   </div>

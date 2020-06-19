@@ -1,104 +1,82 @@
 <template>
   <div id="carouselPicture">
-    <el-card class="box-card" style="margin: 0 auto">
-      <div slot="header" class="clearfix">
+    <card ref="Card" style="width: 70%;margin: 0 auto">
+      <div slot="header">
         <span>轮播图列表</span>
         <el-button style="float: right" type="primary" @click="addPicture">新增</el-button>
       </div>
-      <div>
-        <el-table :data="formData" max-height="100%" style="width: 100%">
-          <el-table-column prop="username" label="图片">
-            <template slot-scope="scope">
-              <el-avatar shape="square" :size="50" :src="baseUrl + scope.row.pictureName">
-                <img src="../../../assets/noFoundPicture.png"/>
-              </el-avatar>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center" width="80">
-            <template slot-scope="scope">
-              <el-popover
-                      :ref="scope.row.pictureId"
-                      placement="top"
-                      width="180">
-                <p>确定删除本条数据吗？</p>
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.pictureId].doClose()">取消</el-button>
-                  <el-button :loading="isLoadingButton" type="primary" size="mini"
-                             @click.stop="deletePicture(scope.row.pictureId)">确定
-                  </el-button>
-                </div>
-                <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
-              </el-popover>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
+      <el-table :data="formData" max-height="100%" style="width: 100%">
+        <el-table-column prop="username" label="图片">
+          <template slot-scope="scope">
+            <el-avatar shape="square" :size="50" :src="baseApi + scope.row.pictureName">
+              <img src="../../../assets/noFoundPicture.png"/>
+            </el-avatar>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="80">
+          <template slot-scope="scope">
+            <el-popover
+                :ref="scope.row.pictureId"
+                placement="top"
+                width="180">
+              <p>确定删除本条数据吗？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="$refs[scope.row.pictureId].doClose()">取消</el-button>
+                <el-button :loading="isLoadingButton" type="primary" size="mini"
+                           @click.stop="deletePicture(scope.row.pictureId)">确定
+                </el-button>
+              </div>
+              <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini" @click.stop/>
+            </el-popover>
+          </template>
+        </el-table-column>
+      </el-table>
+    </card>
     <el-dialog
-            title="上传轮播图"
-            width="600px"
-            append-to-body
-            @close="resetUploadForm"
-            :close-on-click-modal="false"
-            :visible.sync="dialogTableVisible">
-      <el-form label-width="120px">
-        <el-form-item label="上传图片:">
-          <el-upload
-                  ref="upload"
-                  class="carousel-uploader"
-                  :action="baseApi+uploadUrl"
-                  accept=".jpg,.png,.gif,.jepg,.jpeg"
-                  :headers="headers"
-                  :show-file-list="false"
-                  :on-success="uploadSuccess">
-            <img v-if="imageUrl" :src="imageUrl" class="carousel-picture" style="width: 250px; height: auto;">
-            <i v-else class="el-icon-plus carousel-uploader-icon" style="font-size: 70px;line-height: 150px"></i>
-          </el-upload>
+        title="上传轮播图"
+        width="600px"
+        append-to-body
+        @close="resetUploadForm"
+        :close-on-click-modal="false"
+        :visible.sync="dialogTableVisible">
+      <el-form :model="form" :rules="rules" ref="Form" label-width="120px">
+        <el-form-item label="上传图片:" prop="pictureName">
+          <upload-carousel v-model="form.pictureName"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form')" :isloading="isDialogLoading">确 定</el-button>
+        <el-button type="primary" @click="submitForm()" :loading="isDialogLoading">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import {
-    getPictureListApi,
-    deletePictureApi,
-    uploadPictureUrl,
-    addPictureApi
-  } from '@/api/carousel_picture'
-  import {carouselPictureBaseUrl} from '@/utils/path'
+  import {getPictureListApi, deletePictureApi, addPictureApi} from '@/api/carousel_picture'
+  import UploadCarousel from './UploadCarousel'
 
   export default {
+    name: 'Carousel',
     data() {
       return {
         formData: [],
         dialogTableVisible: false,
-        /*上传文件*/
-        uploadTableVisible: false,
-        imageUrl: '',
-        pictureName: '',
         isDialogLoading: false,
-        isLoadingButton: false
+        isLoadingButton: false,
+        form: {
+          pictureName: ''
+        },
+        rules: {
+          pictureName: {required: true, message: '请上传图片', trigger: 'change'}
+        }
       }
     },
+    components: {UploadCarousel},
     computed: {
-      baseUrl() {
-        return carouselPictureBaseUrl
-      },
       baseApi() {
         return process.env.VUE_APP_BASE_API
       },
-      uploadUrl() {
-        return uploadPictureUrl
-      },
-      headers() {
-        return {'Authorization': this.$store.getters.token}
-      }
     },
     mounted() {
       this.getPictureList()
@@ -106,7 +84,9 @@
     methods: {
       // 获得图片列表
       getPictureList() {
+        this.$refs.Card.start();
         getPictureListApi().then(result => {
+          this.$refs.Card.stop();
           this.formData = result.data.resultParm.pictureList
         })
       },
@@ -114,70 +94,43 @@
       addPicture() {
         this.dialogTableVisible = true
       },
-      // 上传图片成功
-      uploadSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.pictureName = res.resultParm.message
-      },
       // 提交
       submitForm() {
-        if (!this.pictureName) {
-          this.$warnMsg('请上传图片');
-          return
-        }
-        this.isDialogLoading = true;
-        addPictureApi({pictureName: this.pictureName}).then(() => {
-          this.isDialogLoading = false;
-          this.resetUploadForm();
-          this.getPictureList();
-        }).catch(() => {
-          this.isDialogLoading = false;
-        })
+        this.$refs['Form'].validate((valid) => {
+          if (valid) {
+            this.isDialogLoading = true;
+            addPictureApi({pictureName: this.form.pictureName}).then(() => {
+              this.isDialogLoading = false;
+              this.resetUploadForm();
+              this.getPictureList();
+            }).catch(() => {
+              this.isDialogLoading = false;
+            })
+          } else {
+            return false;
+          }
+        });
       },
       // 删除图片
       deletePicture(id) {
         this.isLoadingButton = true;
         deletePictureApi(id)
-            .then(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose();
-              this.getPictureList()
-            })
-            .catch(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose()
-            })
+          .then(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose();
+            this.getPictureList()
+          })
+          .catch(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose()
+          })
       },
       // 重置上传表单
       resetUploadForm() {
         this.dialogTableVisible = false;
-        this.$refs['upload'].clearFiles();
-        this.imageUrl = '';
-        this.pictureName = ''
-      },
+        Object.assign(this.$data.form, this.$options.data().form);
+        this.$refs['Form'].clearValidate()
+      }
     }
   }
 </script>
-
-
-<style lang="scss">
-  #carouselPicture {
-    .clearfix:before,
-    .clearfix:after {
-      display: table;
-      content: "";
-    }
-
-    .clearfix:after {
-      clear: both
-    }
-
-    .box-card {
-      width: 70%;
-    }
-
-    .carousel-uploader-icon {
-      line-height: 150px !important;
-    }
-  }
-</style>

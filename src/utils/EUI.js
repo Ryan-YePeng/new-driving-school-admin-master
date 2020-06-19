@@ -89,6 +89,19 @@ Vue.prototype.$warnNotify = warnNotify;
 Vue.prototype.$msgBox = msgBox;
 Vue.prototype.$prompt = MessageBox.prompt;
 
+/**
+ * @description 自定义Element-UI组件
+ * */
+import Card from '@/components/Card'
+import RowCol from '@/components/RowCol'
+import DeleteButton from '@/components/DeleteButton'
+import SubmitButton from '@/components/SubmitButton'
+
+Vue.component('Card', Card);
+Vue.component('RowCol', RowCol);
+Vue.component('DeleteButton', DeleteButton);
+Vue.component('SubmitButton', SubmitButton);
+
 export default {
   successMsg,
   errorMsg
