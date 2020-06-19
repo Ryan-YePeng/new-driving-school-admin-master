@@ -1,8 +1,5 @@
-import {axiosG} from '../utils/request'
+import {axiosG} from '@/utils/request'
 
-// 获取菜单
-const menuUrl = 'school/getMenu';
+const menuUrl = 'school/getMenu'; // 获取菜单
 
-export function get() {
-  return axiosG(menuUrl)
-}
+export const get = () => axiosG(menuUrl)

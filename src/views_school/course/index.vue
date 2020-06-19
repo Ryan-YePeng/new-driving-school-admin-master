@@ -110,7 +110,8 @@
           schoolCourseName: '',
           schoolCourseType: 'A1',
           schoolCoursePrice: 1,
-          learnCycle: 1
+          learnCycle: 1,
+          isPay: true
         },
         courseTypeOptions: [],
         form_c_rules: {

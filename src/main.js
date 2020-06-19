@@ -7,8 +7,6 @@ import store from './store'
 import './utils/directive'
 // 样式初始化
 import './styles/initialization.css'
-// jquery
-import $ from 'jquery'
 // storage
 import './utils/storage'
 // 图标库
@@ -32,8 +30,6 @@ import App from './App'
 
 // 阻止启动生产消息
 Vue.config.productionTip = false;
-// jquery
-Vue.prototype.$$ = $;
 // 注册右键菜单
 Vue.use(EVueContextmenu);
 // ElementUI

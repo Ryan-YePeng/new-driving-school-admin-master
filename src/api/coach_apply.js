@@ -1,22 +1,12 @@
-import {axiosG} from '../utils/request'
+import {axiosG} from '@/utils/request'
 
-// 获得教练审核列表
-const getCoachApplyUrl = 'admin/coach/getToCoachList?';
+/**
+ * @module 教练审核
+ * */
+const getCoachApplyUrl = 'admin/coach/getToCoachList?'; // 获得教练审核列表
+const agreeCoachApplyUrl = 'admin/coach/coachAgree?coachId='; // 同意
+const rejectCoachApplyUrl = 'admin/coach/coachDisAgree?coachId='; // 拒绝
 
-export function getCoachApplyApi(data) {
-  return axiosG(getCoachApplyUrl + data)
-}
-
-// 同意
-const agreeCoachApplyUrl = 'admin/coach/coachAgree?coachId=';
-
-export function passCoachApplyApi(data) {
-  return axiosG(agreeCoachApplyUrl + data)
-}
-
-// 拒绝
-const rejectCoachApplyUrl = 'admin/coach/coachDisAgree?coachId=';
-
-export function rejectCoachApplyApi(data) {
-  return axiosG(rejectCoachApplyUrl + data)
-}
+export const getCoachApplyApi=(data) => axiosG(getCoachApplyUrl + data)
+export const passCoachApplyApi=(data) => axiosG(agreeCoachApplyUrl + data)
+export const rejectCoachApplyApi=(data) => axiosG(rejectCoachApplyUrl + data)

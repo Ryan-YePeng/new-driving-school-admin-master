@@ -4,22 +4,19 @@ const type = {
   SET_TAGS: 'SET_TAGS',
   ADD_TAGS: 'ADD_TAGS',
   DELETE_TAGS: 'DELETE_TAGS',
-  SET_BREADCRUMB: 'SET_BREADCRUMB',
-  SET_ScrollTop: 'SET_ScrollTop',
+  SET_BREADCRUMB: 'SET_BREADCRUMB'
 };
 
 const state = {
   active: '首页',
   breadcrumb: [],
-  tags: [{title: "首页", path: "home", index: []}],
-  scrollTop: 0
+  tags: [{title: "首页", path: "home", index: []}]
 };
 
 const getters = {
   active: state => state.active,
   tags: state => state.tags,
-  breadcrumb: state => state.breadcrumb,
-  scrollTop: state => state.scrollTop
+  breadcrumb: state => state.breadcrumb
 };
 
 const mutations = {
@@ -45,10 +42,6 @@ const mutations = {
   },
   [type.DELETE_TAGS](state, index) {
     if (index) state.tags.splice(index, 1)
-  },
-  [type.SET_ScrollTop](state, scrollTop) {
-    if (scrollTop) state.scrollTop = scrollTop;
-    else state.scrollTop = 0
   }
 };
 
@@ -67,9 +60,6 @@ const actions = {
   },
   setBreadcrumb: ({commit}, breadcrumb) => {
     commit(type.SET_BREADCRUMB, breadcrumb)
-  },
-  setScrollTop: ({commit}, scrollTop) => {
-    commit(type.SET_ScrollTop, scrollTop)
   }
 };
 

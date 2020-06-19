@@ -43,10 +43,8 @@
           <transition name="xz-animation">
             <router-view v-if="isRouterAlive"></router-view>
           </transition>
-          <div class="back-top">
-            <el-button type="primary" icon="el-icon-top" circle class="to-top" @click="backTop" v-show="isShowBackTop"/>
-          </div>
         </el-main>
+        <el-backtop target=".top" :right="16" :bottom="80"></el-backtop>
       </el-container>
     </el-container>
   </div>
@@ -67,8 +65,7 @@
         isRouterAlive: true,
         isCollapse: false,
         isSmall: false,
-        isMenuCollapse: false,
-        isShowBackTop: false
+        isMenuCollapse: false
       }
     },
     mounted() {
@@ -92,26 +89,12 @@
       }
     },
     methods: {
-      // 获取滚动高度
-      getScrollTop(obj) {
-        obj.scrollTop >= 100
-            ? this.isShowBackTop = true
-            : this.isShowBackTop = false;
-        this.$store.dispatch('setScrollTop', obj.scrollTop)
-      },
       // 事件监听
       initialListener() {
         const _this = this;
         window.addEventListener('resize', () => {
           this.getWindowWidth()
         });
-        document.querySelector('.top').addEventListener('scroll', function () {
-          _this.getScrollTop(this)
-        })
-      },
-      // 返回顶部
-      backTop(delay = 500) {
-        this.$$('.top').animate({scrollTop: 0}, delay)
       },
       // 退出登录
       logout() {
@@ -259,13 +242,6 @@
       position: absolute;
       right: 0;
       bottom: 3px;
-    }
-
-    .back-top {
-      position: fixed;
-      z-index: 1500;
-      right: 20px;
-      bottom: 100px;
     }
 
     .xz-animation-enter-active {

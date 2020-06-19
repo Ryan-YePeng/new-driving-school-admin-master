@@ -1,30 +1,15 @@
 import {axiosd, axiosG, axiosK} from "@/utils/request";
 
+/**
+ * @description 轮播图
+ * */
+const getPictureListUrl = 'admin/getPictureList'; // 获得图片列表
+const addPictureUrl = 'admin/addPicture'; // 增加图片
+const deletePictureUrl = 'admin/deletePicture?pictureId='; // 删除图片
 
-// 获得图片列表
-const getPictureListUrl = 'admin/getPictureList';
-
-export function getPictureListApi() {
-  return axiosG(getPictureListUrl)
-}
-
-// 增加图片
-const addPictureUrl = 'admin/addPicture';
-
-export function addPictureApi(data) {
-  return axiosK(addPictureUrl, data)
-}
+export const getPictureListApi = () => axiosG(getPictureListUrl)
+export const addPictureApi = (data) => axiosK(addPictureUrl, data)
+export const deletePictureApi = (data) => axiosd(deletePictureUrl + data)
 
 //  上传文件
 export const uploadPictureUrl = 'admin/uploadPicture';
-
-// 删除图片
-const deletePictureUrl = 'admin/deletePicture?pictureId=';
-
-export function deletePictureApi(data) {
-  return axiosd(deletePictureUrl + data)
-}
-
-
-
-

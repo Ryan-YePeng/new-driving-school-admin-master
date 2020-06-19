@@ -74,12 +74,6 @@
           <el-input-number v-model="form_c.schoolCoursePrice" :min="0.01" :precision="2"
                            :max="99999.99"></el-input-number>
         </el-form-item>
-        <el-form-item label="支付" prop="isPay">
-          <el-radio-group v-model="form_c.isPay">
-            <el-radio :label="true">开启</el-radio>
-            <el-radio :label="false">关闭</el-radio>
-          </el-radio-group>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible = false">取 消</el-button>
@@ -118,7 +112,7 @@
           schoolCourseType: 'A1',
           schoolCoursePrice: 1,
           learnCycle: 1,
-          isPay: false
+          isPay: true
         },
         courseTypeOptions: [],
         form_c_rules: {

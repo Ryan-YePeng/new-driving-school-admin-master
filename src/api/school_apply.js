@@ -1,22 +1,12 @@
-import {axiosG} from '../utils/request'
+import {axiosG} from '@/utils/request'
 
-// 获得审核列表
-const getSchoolApplyUrl = 'admin/school/getToSchoolList?';
+/**
+ * @module 驾校审核
+ * */
+const getSchoolApplyUrl = 'admin/school/getToSchoolList?'; // 获得审核列表
+const agreeSchoolApplyUrl = 'admin/school/schoolAgree?schoolId='; // 同意审核
+const rejectSchoolApplyUrl = 'admin/school/schoolDisAgree?schoolId='; // 拒绝审核
 
-export function getSchoolApplyApi(data) {
-  return axiosG(getSchoolApplyUrl + data)
-}
-
-// 同意审核
-const agreeSchoolApplyUrl = 'admin/school/schoolAgree?schoolId=';
-
-export function passSchoolApplyApi(data) {
-  return axiosG(agreeSchoolApplyUrl + data)
-}
-
-// 拒绝审核
-const rejectSchoolApplyUrl = 'admin/school/schoolDisAgree?schoolId=';
-
-export function rejectSchoolApplyApi(data) {
-  return axiosG(rejectSchoolApplyUrl + data)
-}
+export const getSchoolApplyApi = (data) => axiosG(getSchoolApplyUrl + data)
+export const passSchoolApplyApi = (data) => axiosG(agreeSchoolApplyUrl + data)
+export const rejectSchoolApplyApi = (data) => axiosG(rejectSchoolApplyUrl + data)

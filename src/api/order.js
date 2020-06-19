@@ -1,22 +1,12 @@
-import {axiosd, axiosG, axiosK} from '../utils/request'
+import {axiosd, axiosG, axiosK} from '@/utils/request'
 
-// 删除订单
-const deleteOrderUrl = 'admin/pay/deleteOrder?orderId=';
+/**
+ * @module 订单列表
+ * */
+const deleteOrderUrl = 'admin/pay/deleteOrder?orderId='; // 删除订单
+const getOrderListUrl = 'admin/pay/getOrderList?'; // 获得订单
+const getSchoolListUrl = 'school/getSchoolList'; // 获得驾校
 
-export function deleteOrderApi(data) {
-  return axiosd(deleteOrderUrl + data)
-}
-
-// 获得订单
-const getOrderListUrl = 'admin/pay/getOrderList?';
-
-export function getOrderListApi(data) {
-  return axiosG(getOrderListUrl + data)
-}
-
-// 获得驾校
-const getSchoolListUrl = 'school/getSchoolList';
-
-export function getSchoolListApi() {
-  return axiosG(getSchoolListUrl)
-}
+export const deleteOrderApi = (data) => axiosd(deleteOrderUrl + data)
+export const getOrderListApi = (data) => axiosG(getOrderListUrl + data)
+export const getSchoolListApi = () => axiosG(getSchoolListUrl)

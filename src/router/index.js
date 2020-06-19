@@ -2,9 +2,8 @@ import router from './routers'
 import store from '../store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import {isEmpty} from '../utils/common'
-import {get} from '../api/menu'
-import {getUserApi} from '../api/person'
+import {get} from '@/api/menu'
+import {getUserApi} from '@/api/person'
 import {menu_admin, menu_school} from './menu'
 
 NProgress.configure({showSpinner: false});
@@ -28,8 +27,8 @@ function generateRouter(menu) {
   let view = '';
   const authority = store.getters.user.authorities[0].authority;
   authority === 'ROLE_ADMIN'
-      ? view = 'views'
-      : view = 'views_school';
+    ? view = 'views'
+    : view = 'views_school';
   menu.forEach(fistItem => {
     //一级菜单
     let firstObj = {};
@@ -76,61 +75,61 @@ export function getRouter() {
     let role;
     let menu;
     getUserApi()
-        .then(result => {
-          let user = result.data.resultParm.user;
-          store.dispatch('setUser', user);
-          role = user.authorities[0].authority;
-          if (role === 'ROLE_SCHOOL') {
-            menu = menu_school;
-          } else {
-            menu = menu_admin;
-          }
-          return get();
-        })
-        .then(result => {
-          if (role === 'ROLE_SCHOOL') {
-            let schoolId = result.data.resultParm.schoolId;
-            store.dispatch('setSchoolId', schoolId);
-          }
-          store.dispatch('setMenu', menu);
-          generateRouter(menu);
-          router.addRoutes([layout]);
-          router.addRoutes([{
-            path: "*",
-            redirect: "/404"
-          }]);
-          router.addRoutes([{
-            path: "",
-            redirect: "/home"
-          }]);
-          resolve()
-        })
+      .then(result => {
+        let user = result.data.resultParm.user;
+        store.dispatch('setUser', user);
+        role = user.authorities[0].authority;
+        if (role === 'ROLE_SCHOOL') {
+          menu = menu_school;
+        } else {
+          menu = menu_admin;
+        }
+        return get();
+      })
+      .then(result => {
+        if (role === 'ROLE_SCHOOL') {
+          let schoolId = result.data.resultParm.schoolId;
+          store.dispatch('setSchoolId', schoolId);
+        }
+        store.dispatch('setMenu', menu);
+        generateRouter(menu);
+        router.addRoutes([layout]);
+        router.addRoutes([{
+          path: "*",
+          redirect: "/404"
+        }]);
+        router.addRoutes([{
+          path: "",
+          redirect: "/home"
+        }]);
+        resolve()
+      })
   });
 }
 
 //添加路由守卫
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  let isLogin = !isEmpty(store.getters.token);
+  let isLogin = store.getters.token;
   if (to.path === "/") {
     isLogin
-        ? next('/home')
-        : next('login');
+      ? next('/home')
+      : next('login');
     return
   }
   if (to.path === "/login") {
+    next();
+    return
+  }
+  if (!isLogin) {
+    next('/login');
+    return
+  }
+  if (layout.children.length === 2) {
+    getRouter();
     next()
   } else {
-    if (isLogin) {
-      if (layout.children.length === 2) {
-        getRouter();
-        next()
-      } else {
-        next()
-      }
-    } else {
-      next('/login')
-    }
+    next()
   }
 });
 

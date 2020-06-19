@@ -1,15 +1,7 @@
-import {axiosd, axiosG, axiosK} from '../utils/request'
+import {axiosG, axiosK} from '@/utils/request'
 
-// 搜索用户列表
-const getUserListUrl = 'admin/getUserList?';
+const getUserListUrl = 'admin/getUserList?'; // 搜索用户列表
+const updateUserUrl = 'school/updateUser'; // 编辑用户
 
-export function getUserListApi(data) {
-  return axiosG(getUserListUrl + data)
-}
-
-// 编辑用户
-const updateUserUrl = 'school/updateUser';
-
-export function updateUserApi(data) {
-  return axiosK(updateUserUrl, data)
-}
+export const getUserListApi = (data) => axiosG(getUserListUrl + data)
+export const updateUserApi = (data) => axiosK(updateUserUrl, data)
