@@ -1,4 +1,4 @@
-import {axiosd, axiosF, axiosG, axiosK} from "./axios";
+import {axiosd, axiosF, axiosFs, axiosG, axiosK} from "./axios";
 
 /**
  * @module 驾校
@@ -19,13 +19,12 @@ export const getSchoolByUserIdApi = () => axiosG(getSchoolByUserIdUrl)
 /**
  * @module 驾校信息
  * */
-// 上传驾校封面
-const uploadHeadPictureUrl = 'school/uploadHeadPicture';
+const uploadHeadPictureUrl = 'school/uploadHeadPicture'; // 上传驾校封面
+const uploadSchoolTrainingPictureUrl = 'school/uploadSchoolTrainingPicture'; // 上传驾校图片
 
 export const uploadHeadPictureApi = (data) => axiosF(uploadHeadPictureUrl, data)
+export const uploadSchoolTrainingPictureApi = (data) => axiosFs(uploadSchoolTrainingPictureUrl, data)
 
-// 上传图片
-export const uploadSchoolPicturesUrl = 'school/uploadSchoolTrainingPicture';
 
 /**
  * @module 课程

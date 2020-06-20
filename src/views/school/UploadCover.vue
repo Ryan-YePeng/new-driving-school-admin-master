@@ -51,7 +51,7 @@
 
 <script>
   import {VueCropper} from 'vue-cropper'
-  import {uploadArticlePictureApi} from "@/api/article";
+  import {uploadHeadPictureApi} from "@/api/school";
 
   export default {
     name: "ImageUploaderPlus",
@@ -108,11 +108,11 @@
         const size = file.size / 1024 / 1024;
         if (!this.accept.includes(type)) {
           let accept = this.accept.replace(/[.]|[,]/g, "");
-          this.$errorMsg(`上传文章封面只能是 ${accept} 格式!`);
+          this.$errorMsg(`上传驾校封面只能是 ${accept} 格式!`);
           return;
         }
         if (size > 2) {
-          this.$errorMsg("上传文章封面大小不能超过 2MB!");
+          this.$errorMsg("上传驾校封面大小不能超过 2MB!");
           return;
         }
         this.$nextTick(() => {
@@ -125,7 +125,7 @@
           let formData = new FormData();
           formData.append('file', data, this.fileName);
           this.$refs.SubmitButton.start();
-          uploadArticlePictureApi(formData)
+          uploadHeadPictureApi(formData)
             .then(result => {
               this.url = URL.createObjectURL(data);
               this.$emit('input', result.data.resultParm.message);

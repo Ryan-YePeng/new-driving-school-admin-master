@@ -48,9 +48,9 @@ table {
   border-spacing: 0;
 }
 
-.el-cascader-menu {
-  height: 300px;
-}
+/*.el-cascader-panel {*/
+/*  height: 300px;*/
+/*}*/
 
 .carousel-uploader {
   border: 1px dashed #d9d9d9;

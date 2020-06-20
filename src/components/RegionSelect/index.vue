@@ -3,7 +3,7 @@
       v-model="selectedOptions"
       popper-class="region-select"
       clearable
-      placeholder="选择位置"
+      :placeholder="placeholder"
       @change="codeToText"
       :props="{checkStrictly}"
       :options="options">
@@ -20,11 +20,12 @@
     props: {
       province: {type: String, default: ''},
       city: {type: String, default: ''},
-      area: {type: String, default: ''}
+      area: {type: String, default: ''},
+      placeholder: {type: String, default: '选择位置'},
+      checkStrictly: {type: Boolean, default: false} // true: 只有一个值，false: 一个或多个
     },
     data() {
       return {
-        checkStrictly: false, // true: 只有一个值，false: 一个或多个
         options: regionData,
         selectedOptions: []
       }
@@ -98,7 +99,8 @@
 
 <style lang="scss">
   .region-select {
-    .el-cascader-panel {
+    .el-cascader-menu,
+    .el-cascader-menu__wrap {
       height: 300px;
     }
 

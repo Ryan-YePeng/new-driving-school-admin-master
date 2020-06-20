@@ -5,7 +5,7 @@ import {axiosd, axiosG, axiosK} from "./axios";
  * */
 const getCoachList = 'admin/coach/getCoachList?'; // 获得教练列表(已审核)
 const getCoachBySchoolId = 'school/coach/getCoachBySchoolId?schoolId='; // 通过学校id获得教练列表
-const deleteCoach = 'school/deleteCoach?coachId='; // 删除教练接口
+const deleteCoach = 'school/coach/deleteCoach?coachId='; // 删除教练接口
 const updateCoach = 'school/coach/updateCoach'; // 更新教练
 const addCoach = 'admin/coach/addCoach'; // 添加教练
 const getSchoolName = 'admin/coach/getSchoolName?schoolFullName='; // 获取驾校

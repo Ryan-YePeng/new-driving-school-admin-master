@@ -1,7 +1,7 @@
 <template>
   <div id="coach-course">
     <!--驾校课程-->
-    <el-card class="box-card" style="margin-top: 20px">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>教练课程</span>
         <el-button style="float: right;" type="primary" @click="addCoachCourse()">
@@ -33,9 +33,9 @@
           <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-popover
-                      :ref="scope.row.coachCourseId"
-                      placement="top"
-                      width="180">
+                  :ref="scope.row.coachCourseId"
+                  placement="top"
+                  width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="$refs[scope.row.coachCourseId].doClose()">取消
@@ -57,10 +57,10 @@
           <el-form-item label="班型名称:">
             <el-select v-model="form_c.schoolCourseId" placeholder="请选择班型">
               <el-option
-                      v-for="item in courseOptions"
-                      :key="item.schoolCourseId"
-                      :label="item.schoolCourseName"
-                      :value="item.schoolCourseId">
+                  v-for="item in courseOptions"
+                  :key="item.schoolCourseId"
+                  :label="item.schoolCourseName"
+                  :value="item.schoolCourseId">
                 <span style="float: left">{{ item.schoolCourseName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.schoolCourseType }}</span>
               </el-option>
@@ -137,7 +137,7 @@
           pagination.total = response.total;
         })
       },
-      
+
       // 新增教练课程
       addCoachCourse() {
         this.form_c.coachId = this.coachId;
@@ -166,15 +166,15 @@
       deleteCoachCourse(id) {
         this.isLoadingButton = true;
         deleteCoachCourseApi(id)
-            .then(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose();
-              this.getCoachCourseList();
-            })
-            .catch(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose()
-            })
+          .then(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose();
+            this.getCoachCourseList();
+          })
+          .catch(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose()
+          })
       },
 
       // 关闭添加教练课程信息
