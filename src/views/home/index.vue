@@ -49,6 +49,7 @@
     height: 100%;
     background: url('../../assets/schoolbg.png') no-repeat bottom;
     background-size: cover;
+
     .container {
       width: 100%;
       height: 100%;
@@ -57,6 +58,7 @@
       background-color: rgba(0, 0, 0, 0.7);
       text-align: center;
       color: white;
+
       .title {
         font-size: 30px;
       }

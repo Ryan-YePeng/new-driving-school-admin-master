@@ -9,12 +9,12 @@ import './utils/directive'
 import './styles/initialization.css'
 // storage
 import './utils/storage'
-// 图标库
-import './styles/iconfont.css'
+// 全局样式
+import './styles/global.css'
 // 选择树样式
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 // svg
-import './assets/icons'
+import './icons'
 // 右键菜单
 import EVueContextmenu from 'e-vue-contextmenu'
 // ElementUI

@@ -1,7 +1,7 @@
 import {axiosG, axiosK} from './axios'
 
-const getUserUrl = 'school/getUser'; // 获得个人信息
-const updatePasswordUrl = 'school/updateAdminPassword'; // 修改密码
+const getUser = 'school/getUser'; // 获得个人信息
+const updatePassword = 'school/updateAdminPassword'; // 修改密码
 
-export const getUserApi = () => axiosG(getUserUrl)
-export const updatePasswordApi = (data) => axiosK(updatePasswordUrl, data)
+export const getUserApi = () => axiosG(getUser)
+export const updatePasswordApi = (data) => axiosK(updatePassword, data)

@@ -1,8 +1,8 @@
 const resolve = dir => require("path").join(__dirname, dir);
 module.exports = {
-  publicPath: "./",
+  publicPath: "/",
   outputDir: "dist",
-  assetsDir: "",
+  assetsDir: "static",
   indexPath: "index.html",
   filenameHashing: true,
   lintOnSave: false,
@@ -14,12 +14,12 @@ module.exports = {
     config.plugins.delete("prefetch");
     config.module
       .rule("svg")
-      .exclude.add(resolve("src/assets/icons"))
+      .exclude.add(resolve("src/icons"))
       .end();
     config.module
       .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve("src/assets/icons"))
+      .include.add(resolve("src/icons"))
       .end()
       .use("svg-sprite-loader")
       .loader("svg-sprite-loader")
@@ -36,7 +36,7 @@ module.exports = {
   devServer: {
     open: false,
     host: "0.0.0.0",
-    port: 8081,
+    port: 8087,
     https: false,
     hotOnly: false,
     proxy: {

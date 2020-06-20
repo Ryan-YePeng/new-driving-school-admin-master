@@ -1,4 +1,4 @@
-let baseUrl = process.env.VUE_APP_PICTURE_BASE_API;
+let baseUrl = process.env.VUE_APP_BASE_URL;
 
 export const articleContentPictureBaseUrl = baseUrl; // 文章富文本
 export const articleCoverPictureBaseUrl = baseUrl; // 文章封面

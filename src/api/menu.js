@@ -1,5 +1,5 @@
 import {axiosG} from './axios'
 
-const menuUrl = 'school/getMenu'; // 获取菜单
+const menu = 'school/getMenu'; // 获取菜单
 
-export const get = () => axiosG(menuUrl)
+export const get = () => axiosG(menu)
