@@ -52,6 +52,12 @@
                          @change="recommend(scope.row.schoolId,scope.row.isRecommend)"></el-switch>
             </template>
           </el-table-column>
+          <el-table-column label="是否支付">
+            <template slot-scope="scope">
+              <el-switch v-model="scope.row.isPay"
+                         @change="pay(scope.row.schoolId,scope.row.isPay)"></el-switch>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" align="center" width="180">
             <template slot-scope="scope">
               <el-button type="primary" @click="edit(scope.row)" size="mini" class="el-icon-zoom-in"></el-button>
@@ -91,7 +97,8 @@
     getSchoolListApi,
     deleteSchoolApi,
     schoolDisRecommendApi,
-    schoolRecommendApi
+    schoolRecommendApi,
+    updateSchoolApi
   } from "@/api/school";
 
   import Pagination from '@/components/pagination'
@@ -135,7 +142,6 @@
           this.isLoading = false
         });
       },
-
       // 删除驾校
       deleteSchool(id) {
         this.isLoadingButton = true;
@@ -150,7 +156,6 @@
             this.$refs[id].doClose()
           })
       },
-
       // 是否推荐驾校
       recommend(id, flag) {
         if (flag) {
@@ -163,7 +168,16 @@
           })
         }
       },
-
+      // 是否支付
+      pay(id, flag) {
+        let data = {
+          schoolId: id,
+          isPay: flag
+        };
+        updateSchoolApi(data).then(() => {
+          this.getSchoolList()
+        })
+      },
       // 修改驾校
       edit(data) {
         try {

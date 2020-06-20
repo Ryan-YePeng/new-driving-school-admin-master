@@ -47,12 +47,6 @@
             <el-form-item label="驾校简介:" prop="schoolIntroduce">
               <el-input type="textarea" v-model="form_i.schoolIntroduce" placeholder="请输入驾校简介"></el-input>
             </el-form-item>
-            <el-form-item label="支付功能:" prop="isPay">
-              <el-radio-group v-model="form_i.isPay">
-                <el-radio :label="true">开启</el-radio>
-                <el-radio :label="false">关闭</el-radio>
-              </el-radio-group>
-            </el-form-item>
           </el-form>
         </card>
 
@@ -156,8 +150,7 @@
           area: '',
           address: '',
           contactPhone: '',
-          schoolIntroduce: '',
-          isPay: false
+          schoolIntroduce: ''
         },
         form_i_rules: {
           headPicture: {required: true, message: '请上传驾校封面', trigger: 'change'},
@@ -167,8 +160,7 @@
           province: {required: true, message: ' ', trigger: 'change'},
           address: {required: true, message: ' ', trigger: 'blur'},
           contactPhone: {required: true, message: ' ', trigger: 'blur'},
-          schoolIntroduce: {required: true, message: ' ', trigger: 'blur'},
-          isPay: {required: true, message: ' ', trigger: 'change'},
+          schoolIntroduce: {required: true, message: ' ', trigger: 'blur'}
         },
 
         /*驾校多张图片*/

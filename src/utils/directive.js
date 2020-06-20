@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import {isEmpty} from "@/utils/common";
 
 const formatTime = require('silly-datetime');
 
@@ -26,4 +27,32 @@ Vue.directive('title', {
   inserted: function (el) {
     document.title = el.dataset.title
   }
+});
+
+/**
+ * @description 对象获得名称
+ * @return {String}
+ **/
+Vue.filter("formatObj", function (obj, key = 'name') {
+  if (isEmpty(obj)) return '';
+  if (obj.hasOwnProperty(key)) {
+    return obj[key];
+  } else {
+    return ''
+  }
+});
+
+/**
+ * @description 数组获得名称
+ * @return {String}
+ **/
+Vue.filter("formatArray", function (array, key = 'name') {
+  if (isEmpty(array)) return '';
+  let str = '';
+  array.forEach(item => {
+    if (!isEmpty(item) && item.hasOwnProperty(key))
+      str += `${item[key]} / `
+  });
+  str = str.replace(/[\s][/][\s]$/, '');
+  return str
 });

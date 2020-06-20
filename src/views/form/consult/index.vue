@@ -7,17 +7,22 @@
       <div>
         <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">
           <el-table-column
-                  prop="realName"
-                  label="姓名">
+              prop="realName"
+              label="姓名">
           </el-table-column>
           <el-table-column
-                  prop="username"
-                  label="手机号">
+              prop="username"
+              label="手机号">
           </el-table-column>
           <el-table-column
-                  prop="question"
-                  label="地区"
-                  :show-overflow-tooltip="true">
+              prop="question"
+              label="地区"
+              :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column label="驾校名称" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{ scope.row.school | formatObj('schoolFullName') }}</span>
+            </template>
           </el-table-column>
           <el-table-column prop="createTime" label="咨询时间" :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -27,9 +32,9 @@
           <el-table-column label="操作" align="center" width="150">
             <template slot-scope="scope">
               <el-popover
-                      :ref="scope.row.schoolConsultId"
-                      placement="top"
-                      width="180">
+                  :ref="scope.row.schoolConsultId"
+                  placement="top"
+                  width="180">
                 <p>确定删除本条数据吗？</p>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="$refs[scope.row.schoolConsultId].doClose()">取消</el-button>
@@ -46,12 +51,12 @@
       </div>
     </el-card>
     <el-dialog
-            title="回复"
-            width="600px"
-            append-to-body
-            @close="cancel"
-            :close-on-click-modal="false"
-            :visible.sync="dialogTableVisible">
+        title="回复"
+        width="600px"
+        append-to-body
+        @close="cancel"
+        :close-on-click-modal="false"
+        :visible.sync="dialogTableVisible">
       <el-form :model="form" :rules="rules" ref="Form" label-width="100px" hide-required-asterisk>
         <el-form-item label="回复内容" prop="schoolReplyContent">
           <el-input type="textarea" v-model="form.schoolReplyContent"></el-input>
@@ -135,15 +140,15 @@
       deleteSchoolConsult(id) {
         this.isLoadingButton = true;
         deleteSchoolConsultApi(id)
-            .then(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose();
-              this.getSchoolConsultList()
-            })
-            .catch(() => {
-              this.isLoadingButton = false;
-              this.$refs[id].doClose()
-            })
+          .then(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose();
+            this.getSchoolConsultList()
+          })
+          .catch(() => {
+            this.isLoadingButton = false;
+            this.$refs[id].doClose()
+          })
       }
     }
   }
