@@ -1,13 +1,13 @@
 <template>
   <div id="coachInDetail">
     <el-dialog
-      title="教练入驻信息详情"
-      width="80%"
-      append-to-body
-      @close="cancel"
-      :close-on-click-modal="true"
-      :close-on-press-escape="false"
-      :visible.sync="dialogTableVisible">
+        title="教练入驻信息详情"
+        width="80%"
+        append-to-body
+        @close="cancel"
+        :close-on-click-modal="true"
+        :close-on-press-escape="false"
+        :visible.sync="dialogTableVisible">
       <el-form label-width="120px">
         <el-form-item label="真实姓名:">
           <span>{{form.realName}}</span>
@@ -78,8 +78,6 @@
 </template>
 
 <script>
-  import {coachInPictureBaseUrl} from "@/utils/path";
-
   export default {
     name: "CoachInDetail",
     data() {
@@ -128,7 +126,7 @@
     },
     methods: {
       transform(str) {
-        let baseUrl = coachInPictureBaseUrl;
+        let baseUrl = process.env.VUE_APP_BASE_API;
         let array = str.split(',');
         array = array.map(item => {
           return baseUrl + item

@@ -7,4 +7,3 @@ export const schoolHeadPictureBaseUrl = baseUrl; // 学校封面
 export const schoolPictureBaseUrl = baseUrl; // 学校多张图片
 export const carouselPictureBaseUrl = baseUrl; // 轮播图
 export const voucherPictureBaseUrl = baseUrl; // 优惠劵图片
-

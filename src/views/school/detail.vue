@@ -115,7 +115,6 @@
 </template>
 
 <script>
-  import PictureUploader from '@/components/picture-uploader'
   import UploadCover from './UploadCover'
   import ImageUploaderBatch from './ImageUploaderBatch'
   import RegionSelect from '@/components/RegionSelect'
@@ -133,7 +132,7 @@
     name: "SchoolDetail",
     components: {
       RegionSelect, UploadCover, ImageUploaderBatch, SchoolConsult, CoachConsult, SchoolComment,
-      PictureUploader, Pagination, Appointment,
+      Pagination, Appointment,
       Order, Voucher, SchoolCourse
     },
     data() {
@@ -180,7 +179,6 @@
         form_p_rules: {
           trainingPicture: {required: true, message: '请上传至少一张驾校图片', trigger: 'change'}
         },
-        fileList: [],
 
         /*驾校资讯类型*/
         form_r_btn: false,

@@ -69,7 +69,6 @@
 
 <script>
   import {updateCoachApi} from "@/api/coach"
-  import PictureUploader from '@/components/picture-uploader'
   import Pagination from '@/components/pagination'
   import RegionSelect from '@/components/RegionSelect'
   import CoachComment from './coach_comment'
@@ -79,7 +78,7 @@
 
   export default {
     name: "CoachDetail",
-    components: {RegionSelect, CoachComment, PictureUploader, Pagination, CoachCourse, Appointment, CoachConsult},
+    components: {RegionSelect, CoachComment, Pagination, CoachCourse, Appointment, CoachConsult},
     data() {
       return {
         activeName: '教练信息',

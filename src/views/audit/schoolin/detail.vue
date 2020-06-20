@@ -82,8 +82,6 @@
 </template>
 
 <script>
-  import {coachInPictureBaseUrl} from "@/utils/path";
-
   export default {
     name: "SchoolInDetail",
     data() {
@@ -133,7 +131,7 @@
     },
     methods: {
       transform(str) {
-        let baseUrl = coachInPictureBaseUrl;
+        let baseUrl = process.env.VUE_APP_BASE_API;
         let array = str.split(',');
         array = array.map(item => {
           return baseUrl + item
