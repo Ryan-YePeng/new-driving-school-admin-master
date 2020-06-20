@@ -1,70 +1,65 @@
 <template>
-  <div>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>教练入驻申请列表</span>
-      </div>
-      <div>
-        <el-input placeholder="搜索姓名" v-model="searchName" clearable style="width: 150px" size="mini"
-                  @keyup.enter.native="getCoachApply"></el-input>
-        <el-input placeholder="搜索手机号" v-model="searchPhone" clearable style="width: 150px" size="mini"
-                  @keyup.enter.native="getCoachApply"></el-input>
-        <el-select v-model="searchState" placeholder="搜索审核状态" clearable size="mini" @change="getCoachApply"
-                   style="width: 150px">
-          <el-option
+  <card>
+    <div slot="header">
+      <el-input placeholder="搜索姓名" v-model="searchName" clearable style="width: 150px" size="mini"
+                @keyup.enter.native="getCoachApply"></el-input>
+      <el-input placeholder="搜索手机号" v-model="searchPhone" clearable style="width: 150px" size="mini"
+                @keyup.enter.native="getCoachApply"></el-input>
+      <el-select v-model="searchState" placeholder="搜索审核状态" clearable size="mini" @change="getCoachApply"
+                 style="width: 150px">
+        <el-option
             v-for="item in options"
             :key="item.id"
             :label="item.label"
             :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="success" class="el-icon-search" size="mini" @click="getCoachApply"></el-button>
-        <el-table v-loading="isLoading" :data="coachInData" max-height="100%" style="width: 100%">
-          <el-table-column
-            prop="realName"
-            label="真实姓名">
-          </el-table-column>
-          <el-table-column
-            prop="coachGender"
-            label="性别">
-          </el-table-column>
-          <el-table-column
-            prop="username"
-            label="手机号">
-          </el-table-column>
-          <el-table-column
-            prop="idNumber"
-            label="身份证号"
-            :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column
-            prop="position"
-            label="位置"
-            :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="state" label="状态">
-            <template slot-scope="scope">
-              <el-tag v-if="scope.row.state==1" type="success" size="mini">已通过</el-tag>
-              <el-tag v-else-if="scope.row.state==2" type="warning" size="mini">审核中</el-tag>
-              <el-tag v-else="scope.row.state==0" type="danger" size="mini">未通过</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center" width="200">
-            <template slot-scope="scope">
-              <el-button type="primary" class="el-icon-zoom-in" @click="checkApply(scope.row)"
-                         size="mini"></el-button>
-              <el-button type="warning" class="el-icon-close" @click="rejectApply(scope.row.coachId)"
-                         size="mini" :disabled="scope.row.state==0"></el-button>
-              <el-button type="success" class="el-icon-check" @click="passApply(scope.row.coachId)"
-                         size="mini" :disabled="scope.row.state==1"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <pagination ref="pagination" @getNewData="getCoachApply"></pagination>
-        <coach-in-detail ref="CoachInDetail"></coach-in-detail>
-      </div>
-    </el-card>
-  </div>
+        </el-option>
+      </el-select>
+      <el-button type="success" class="el-icon-search" size="mini" @click="getCoachApply"></el-button>
+    </div>
+    <el-table v-loading="isLoading" :data="coachInData">
+      <el-table-column
+          prop="realName"
+          label="真实姓名">
+      </el-table-column>
+      <el-table-column
+          prop="coachGender"
+          label="性别">
+      </el-table-column>
+      <el-table-column
+          prop="username"
+          label="手机号">
+      </el-table-column>
+      <el-table-column
+          prop="idNumber"
+          label="身份证号"
+          :show-overflow-tooltip="true">
+      </el-table-column>
+      <el-table-column
+          prop="position"
+          label="位置"
+          :show-overflow-tooltip="true">
+      </el-table-column>
+      <el-table-column prop="state" label="状态">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.state==1" type="success" size="mini">已通过</el-tag>
+          <el-tag v-else-if="scope.row.state==2" type="warning" size="mini">审核中</el-tag>
+          <el-tag v-else="scope.row.state==0" type="danger" size="mini">未通过</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="200">
+        <template slot-scope="scope">
+          <el-button type="primary" class="el-icon-zoom-in" @click="checkApply(scope.row)"
+                     size="mini"></el-button>
+          <el-button type="warning" class="el-icon-close" @click="rejectApply(scope.row.coachId)"
+                     size="mini" :disabled="scope.row.state==0"></el-button>
+          <el-button type="success" class="el-icon-check" @click="passApply(scope.row.coachId)"
+                     size="mini" :disabled="scope.row.state==1"></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <pagination ref="pagination" @getNewData="getCoachApply"></pagination>
+    <coach-in-detail ref="CoachInDetail"></coach-in-detail>
+  </card>
 </template>
 
 <script>
@@ -111,7 +106,6 @@
             item['position'] = `${item['province']} ${item['city']} ${item['area']}`;
           });
           pagination.total = response.total;
-          console.log(result)
         })
       },
       // 查看详情
@@ -139,19 +133,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
-
-  .box-card {
-    width: 100%;
-  }
-</style>
