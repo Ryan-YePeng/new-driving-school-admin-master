@@ -62,7 +62,7 @@
       <el-tab-pane label="教练评论" name="CoachComment">
         <coach-comment v-if="activeName === 'CoachComment'" :coachId="coachId"></coach-comment>
       </el-tab-pane>
-      <el-tab-pane label="教练咨询" name="CoachConsult">
+      <el-tab-pane label="教练咨询" name="CoachConsult" v-if="user.isShowForm">
         <coach-consult v-if="activeName === 'CoachConsult'" :coachId="coachId"></coach-consult>
       </el-tab-pane>
       <!--<el-tab-pane label="学生预约" name="Appointment">-->
@@ -116,6 +116,11 @@
           consultLink: ''
         },
         flag: true
+      }
+    },
+    computed: {
+      user() {
+        return this.$store.getters.user
       }
     },
     methods: {

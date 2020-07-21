@@ -55,13 +55,13 @@ export const schoolDisRecommendApi = (data) => axiosG(schoolDisRecommendUrl + da
 /**
  * @module 咨询
  * */
-const getAllSchoolConsultUrl = 'admin/getAllSchoolConsult'; // 获得所有驾校咨询
+const getAllSchoolConsultUrl = 'admin/getAllSchoolConsult?'; // 获得所有驾校咨询
 const getSchoolConsultListUrl = 'school/getSchoolConsultList?'; // 通过学校id获得驾校咨询列表
 const deleteSchoolConsultUrl = 'school/deleteSchoolConsult?schoolConsultId='; // 删除驾校咨询
 const getCoachConsultListUrl = 'school/getCoachConsultList?'; // 通过学校id获得教练咨询列表
 const deleteCoachConsultUrl = 'school/deleteCoachConsult?coachConsultId='; // 删除教练咨询列表
 
-export const getAllSchoolConsultApi = () => axiosG(getAllSchoolConsultUrl)
+export const getAllSchoolConsultApi = (data) => axiosG(getAllSchoolConsultUrl + data)
 export const getSchoolConsultListApi = (data) => axiosG(getSchoolConsultListUrl + data)
 export const deleteSchoolConsultApi = (data) => axiosd(deleteSchoolConsultUrl + data)
 export const getCoachConsultListApi = (data) => axiosG(getCoachConsultListUrl + data)

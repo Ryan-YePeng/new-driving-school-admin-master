@@ -1,8 +1,9 @@
 <template>
   <div id="school-consult">
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>报名咨询列表</span>
+      <div slot="header">
+        <el-input v-model="searchCity" placeholder="输入城市搜索" clearable style="width: 200px" @keyup.enter.native="getSchoolConsultList"/>
+        <el-button type="success" class="el-icon-search" @click="getSchoolConsultList">搜索</el-button>
       </div>
       <div>
         <el-table v-loading="isLoading" :data="schoolConsultList" max-height="100%" style="width: 100%">
@@ -95,7 +96,8 @@
         rules: {
           schoolReplyContent: {required: true, message: '请输入回复内容', trigger: 'blur'}
         },
-        resultObj: {}
+        resultObj: {},
+        searchCity: ''
       }
     },
     mounted() {
@@ -106,7 +108,7 @@
       getSchoolConsultList() {
         this.isLoading = true;
         let pagination = this.$refs.pagination.pagination;
-        let param = `current=${pagination.current}&size=${pagination.size}`;
+        let param = `current=${pagination.current}&size=${pagination.size}&city=${this.searchCity}`;
         getAllSchoolConsultApi(param).then(result => {
           this.isLoading = false;
           let response = result.data.resultParm.schoolConsultList;
