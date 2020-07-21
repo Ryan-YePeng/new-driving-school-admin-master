@@ -80,7 +80,13 @@ export function getRouter() {
         store.dispatch('setUser', user);
         role = user.authorities[0].authority;
         if (role === 'ROLE_SCHOOL') {
-          menu = menu_school;
+          menu = [...menu_school];
+          if (!user.isShowForm) {
+            let index = menu.findIndex((item) => {
+              if (item.path === "school_consult") return true
+            })
+            menu.splice(index, 1)
+          }
         } else {
           menu = menu_admin;
         }

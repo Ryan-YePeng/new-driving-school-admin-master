@@ -58,6 +58,12 @@
                          @change="pay(scope.row.schoolId,scope.row.isPay)"></el-switch>
             </template>
           </el-table-column>
+          <el-table-column label="是否显示咨询">
+            <template slot-scope="scope">
+              <el-switch v-model="scope.row.isShowForm"
+                         @change="changeShowForm(scope.row.schoolId,scope.row.isShowForm)"></el-switch>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" align="center" width="180">
             <template slot-scope="scope">
               <el-button type="primary" @click="edit(scope.row)" size="mini" class="el-icon-zoom-in"></el-button>
@@ -155,6 +161,16 @@
             this.isLoadingButton = false;
             this.$refs[id].doClose()
           })
+      },
+      // 是否显示咨询
+      changeShowForm(id, flag) {
+        let data = {
+          isShowForm: flag,
+          schoolId: id
+        };
+        updateSchoolApi(data).then(() => {
+          this.getSchoolList()
+        })
       },
       // 是否推荐驾校
       recommend(id, flag) {
