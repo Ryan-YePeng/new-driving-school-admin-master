@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "default-passive-events": "^1.0.10",
     "e-vue-contextmenu": "^0.1.3",
